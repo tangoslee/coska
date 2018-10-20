@@ -1,0 +1,10 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a routerLink="/{{baseHref}}" routerLinkActive="active">Home</a></li>
+
+    <li class="breadcrumb-item" *ngFor="let path of paths; let last = last;">
+      <a *ngIf="!last" [routerLink]="['/' + baseHref, path]"  routerLinkActive="active">{{pgidMap[path].title}}</a>
+      <span *ngIf="last">{{pgidMap[path].title}}</span>
+    </li>
+  </ol>
+</nav>

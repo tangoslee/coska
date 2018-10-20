@@ -1,0 +1,20 @@
+.maintenance-cover {
+    height: 550px !important;
+}
+
+.fa-spin-reverse {
+    -webkit-animation: fa-spin 2s infinite linear;
+    animation: fa-spin 2s infinite linear;
+    animation-direction: reverse;
+}
+
+.parent {
+    position: relative;
+}
+
+.child {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}

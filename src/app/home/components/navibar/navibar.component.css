@@ -1,0 +1,11 @@
+a {
+    cursor: pointer;
+}
+
+a:disabled {
+    cursor: not-allowed;
+}
+
+nav {
+    border-bottom: solid 5px #000;
+}

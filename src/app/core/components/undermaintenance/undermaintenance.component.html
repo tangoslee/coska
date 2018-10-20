@@ -1,0 +1,20 @@
+<section class="intro h-100" *ngIf="maintenance">
+  <div class="container h-100 parent">
+    <div class="row maintenance child w-100">
+      <div class="col-lg-12 text-center">
+
+          <h2>{{maintenance.title}}</h2>
+          <p class="text-big">{{maintenance.desc}}</p>
+          <p class="text-big" *ngIf="maintenance.start_dt">{{maintenance.start_dt | date:'medium'}} ~
+            {{maintenance.end_dt| date:'medium'}}</p>
+
+          <div class="col-md-6 animate-box fadeInUp animated-fast mx-auto">
+            <i class="fa fa-wrench fa-4x fa-spin" aria-hidden="true"></i>
+            <i class="fa fa-cog fa-5x fa-spin-reverse" aria-hidden="true"></i>
+          </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>

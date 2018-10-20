@@ -1,0 +1,27 @@
+<app-navibar></app-navibar>
+
+
+<div class="main-container">
+
+  <app-sidebar></app-sidebar>
+
+  <main class="main container-fluid">
+
+    <app-breadcrumb></app-breadcrumb>
+
+    <div class="container-fluid">
+
+      <div class="row main-body">
+        <div class="col-md">
+          <div *ngIf="html" [innerHTML]="html"></div>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+</div>
+
+
+<app-footer></app-footer>

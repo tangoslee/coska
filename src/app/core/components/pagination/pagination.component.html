@@ -1,0 +1,15 @@
+<ul class="pagination">
+  <li *ngIf="pageset > 1" class="page-item">
+    <a class="page-link" (click)="onNextClick(prev_pageset)">Prev</a>
+  </li>
+
+  <li *ngFor="let p of pages; let i = index; let last = last;"  class="page-item" 
+    [ngClass]="{active: p === page}">
+    <a class="page-link" (click)="p !== page && onClick(p)" 
+      [ngClass]="{disabled: p === page}">{{p}}</a>
+  </li>
+
+  <li *ngIf="pageset < total_pageset" class="page-item">
+    <a class="page-link" (click)="onNextClick(next_pageset)">Next</a>
+  </li>
+</ul>

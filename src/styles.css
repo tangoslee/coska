@@ -1,1 +1,97 @@
 /* You can add global styles to this file, and also import other style files */
+
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,800|Nanum+Gothic:400,700|Sarina|Stylish|Sunflower:300|Noto+Sans+KR');
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+  font-size: 16px;
+  line-height: 2rem;
+  position: relative;
+  font-family: 'Montserrat', sans-serif;
+  /* font-family: 'Sunflower', sans-serif; */
+  /* font-family: 'Stylish', sans-serif; */
+  /* font-family: 'Noto Sans KR', sans-serif; */
+}
+
+.logo-text {
+  font-family: 'Sarina', sans-serif;
+  font-size: 3rem;
+  line-height: 3rem;
+  text-transform: capitalize;
+  text-shadow: 4px 4px 4px #aaa;
+}
+
+header {
+  margin-bottom: 0 !important;
+}
+
+.breadcrumb {
+  height: 3rem;
+}
+
+.main-container {
+  /* background-color: grey; */
+  min-height: calc(100vh - 10rem);
+  display: flex;
+}
+
+.main, aside {
+  min-height: 100%;
+}
+
+.main {
+  /* background-color: rgb(17, 134, 13); */
+  flex: 1;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.main-body {
+  margin: 1.5rem 1rem;
+}
+
+.breadcrumb {
+  margin: 0;
+}
+
+aside {
+  /* background-color: rgb(235, 196, 114); */
+  flex: 1;
+}
+
+footer {
+  height: 5rem;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+@media (min-width: 300px) {
+  #sidebar {
+    display: none;
+  }
+}
+
+@media (min-width: 400px) {}
+
+@media (min-width: 575px) {}
+
+@media (min-width: 768px) {}
+
+@media (min-width: 992px) {
+  #sidebar {
+    display: block;
+  }
+}
+
+@media (min-width: 1200px) {}
