@@ -27,8 +27,10 @@ export class BreadcrumbComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
   ) {
     this.getState = this.store.select(selectAppState);
-    this.getStateSub = this.getState.subscribe(({ pgidMap }) => this.pgidMap = pgidMap);
-    this.routeSub = this.route.params.subscribe(params => this.paths = Object.values(params));
+    this.getStateSub = this.getState.subscribe(({ pgidMap }) => {
+      this.pgidMap = pgidMap;
+      this.routeSub = this.route.params.subscribe(params => this.paths = Object.values(params));
+    });
   }
 
   ngOnInit() {

@@ -11,7 +11,7 @@ import {
   AlertsComponent,
   PaginationComponent,
   UndermaintenanceComponent,
-  LoadingComponent
+  LoadingComponent,
 } from './components';
 import { TruncatePipe } from '@app/core/pipes';
 

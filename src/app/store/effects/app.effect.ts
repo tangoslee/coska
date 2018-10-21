@@ -7,7 +7,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 // import 'rxjs/add/operator/switchMap';
 
 import { AppActionTypes, GetStatusSuccess, GetStatus } from '../actions/app.action';
-import { HomeService } from '@app/home';
+import { HomeService } from '@app/home/services';
 import { switchMap, map } from 'rxjs/operators';
 
 

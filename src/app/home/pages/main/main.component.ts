@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { HomeService } from '@app/home/services';
+import { Observable } from 'rxjs/Observable';
+
+import { Store } from '@ngrx/store';
+import { AppState, selectAppState } from '@app/store/app.states';
+import { DocMeta } from '@app/core/models/doc-meta';
 
 @Component({
   selector: 'app-main',
@@ -9,21 +13,32 @@ import { HomeService } from '@app/home/services';
 })
 export class MainComponent implements OnInit {
 
-  html: string;
+  docMeta: DocMeta = { type: 'html', docId: 'main' };
+
+  getState: Observable<any>;
 
   constructor(
+    private store: Store<AppState>,
     private route: ActivatedRoute,
-    private homeService: HomeService,
   ) {
-    this.route.params.subscribe(params => {
-      const { ppgid, pgid } = params;
-      console.log({ppgid, pgid});
-      const page = (ppgid && pgid) ? `${ppgid}/${pgid}` : 'main';
-      this.homeService.getPages(page).subscribe(data => this.html = data);
-    });
+    this.getState = this.store.select(selectAppState);
+
+
   }
 
   ngOnInit() {
+    this.getState.subscribe(({ pgidMap }) => {
+      this.route.params.subscribe(({ ppgid, pgid }) => {
+        // console.log({ppgid, pgid});
+        const { type } = (pgidMap[pgid]) ? pgidMap[pgid] : { type: null };
+        if (type) {
+          this.docMeta = {
+            type,
+            docId: (ppgid && pgid) ? `${ppgid}/${pgid}` : 'main'
+          };
+        }
+      });
+    });
   }
 
 

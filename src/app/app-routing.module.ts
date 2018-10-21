@@ -8,6 +8,7 @@ const baseHref = environment.BASE_HREF;
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: baseHref, loadChildren: 'app/home/home.module#HomeModule'},
+  { path: '**', redirectTo: '/home' }
 ];
 
 // if (baseHref) {

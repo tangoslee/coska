@@ -16,6 +16,3 @@ export const effects = [
 ];
 
 export const selectAppState = createFeatureSelector<AppState>('app');
-
-
-

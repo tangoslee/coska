@@ -2,7 +2,6 @@ import { Maintenance } from '@app/core/models/maintenance';
 import { Menu } from '@app/core/models/menu';
 import { AppActions, AppActionTypes } from '../actions/app.action';
 
-
 export interface State {
   maintenance: Maintenance | null;
   menus: Menu[];

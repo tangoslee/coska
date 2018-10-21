@@ -8,14 +8,12 @@ import {
   NavibarComponent,
   FooterComponent,
   BreadcrumbComponent,
+  SidebarComponent,
 } from '@app/home/components';
 
-import {
-  MainComponent,
-} from '@app/home/pages';
-import { SidebarComponent } from './components/sidebar/sidebar.component';
-import { HomeService } from './services';
-
+import { HomeService } from '@app/home/services';
+import { MainComponent } from '@app/home/pages';
+import { ContentsComponent, HtmlComponent, MarkdownComponent } from './components/contents';
 
 @NgModule({
   imports: [
@@ -24,7 +22,7 @@ import { HomeService } from './services';
     // MarkdownModule.forRoot({
     //   // loader: HttpClient,
     //   markedOptions: {
-    //     provide: MarkedOptions,
+    //     provide: MarkedOptions2,
     //     useValue: {
     //       gfm: true,
     //       tables: true,
@@ -43,6 +41,9 @@ import { HomeService } from './services';
     BreadcrumbComponent,
     FooterComponent,
     SidebarComponent,
+    ContentsComponent,
+    HtmlComponent,
+    MarkdownComponent,
   ],
   exports: [
     BreadcrumbComponent,
@@ -50,6 +51,9 @@ import { HomeService } from './services';
     MainComponent,
     NavibarComponent,
     SidebarComponent,
+    ContentsComponent,
+    HtmlComponent,
+    MarkdownComponent,
   ],
   providers: [
     HomeService,

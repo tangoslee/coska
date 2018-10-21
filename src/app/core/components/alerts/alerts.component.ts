@@ -29,7 +29,9 @@ export class AlertsComponent implements OnInit {
       this.alert = alert;
       this.show = true;
       // console.log('alert:', this.alert);
-      this.timeoutId = setTimeout(this.show = false, 1500);
+      this.timeoutId = setTimeout(() => {
+        this.show = false;
+      }, 1500);
     });
   }
 

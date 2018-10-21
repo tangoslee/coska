@@ -34,18 +34,19 @@ export class NavibarComponent implements OnInit {
     this.getState.subscribe(({ menus, pgidMap }) => {
       this.menus = menus;
       this.pgidMap = pgidMap;
-    });
-    this.route.params.subscribe(params => {
-      const { ppgid, pgid } = params;
 
-      // redirect to the 1st submenu;
-      if (ppgid && !pgid) {
-        const { subMenu } = this.pgidMap[ppgid];
-        const [sub, ] = (subMenu) ?
-          subMenu.filter(menu => Object.prototype.hasOwnProperty.call(menu, 'pgid')) :
-          [ , , ];
-        this.router.navigateByUrl(`${this.location.path()}/${sub.pgid}`);
-      }
+      this.route.params.subscribe(params => {
+        const { ppgid, pgid } = params;
+
+        // redirect to the 1st submenu;
+        if (ppgid && !pgid) {
+          const { subMenu } = this.pgidMap[ppgid];
+          const [sub, ] = (subMenu)
+            ? subMenu.filter(menu => Object.prototype.hasOwnProperty.call(menu, 'pgid'))
+            : [ , , ];
+          this.router.navigateByUrl(`${this.location.path()}/${sub.pgid}`);
+        }
+      });
     });
   }
 
