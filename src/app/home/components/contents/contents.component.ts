@@ -7,6 +7,8 @@ import { DocMeta } from '@app/core/models/doc-meta';
   template: `
   <ng-container [ngSwitch]="docMeta.type">
     <app-html *ngSwitchCase="'html'" [docMeta]="docMeta"></app-html>
+    <app-markdown *ngSwitchCase="'markdown'" [docMeta]="docMeta"></app-markdown>
+    <app-xml *ngSwitchCase="'xml'" [docMeta]="docMeta"></app-xml>
   </ng-container>
   `
 })

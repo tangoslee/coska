@@ -24,7 +24,7 @@ export class AppComponent {
     this.store.dispatch(new GetStatus());
 
     this.getState.subscribe(({ maintenance }) => {
-      console.log({maintenance});
+      // console.log({maintenance});
       this.maintenance = maintenance;
     });
   }

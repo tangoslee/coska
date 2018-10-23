@@ -21,7 +21,7 @@ export class HtmlComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (this.docMeta) {
-      this.homeService.getPages(this.docMeta.docId).subscribe(data => this.data = data);
+      this.homeService.getHTML(this.docMeta.docId).subscribe(data => this.data = data);
     }
   }
 

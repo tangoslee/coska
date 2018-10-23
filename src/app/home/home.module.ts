@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-// import { MarkdownModule, MarkedOptions } from 'ngx-markdown';
+import { MarkdownModule, MarkedOptions } from 'ngx-markdown';
 import { HomeRoutingModule } from './home-routing.module';
 
 import {
@@ -13,27 +13,34 @@ import {
 
 import { HomeService } from '@app/home/services';
 import { MainComponent } from '@app/home/pages';
-import { ContentsComponent, HtmlComponent, MarkdownComponent } from './components/contents';
+import {
+  ContentsComponent,
+  HtmlComponent,
+  MarkdownComponent,
+  XmlComponent,
+} from './components/contents';
+import { CoreModule } from '@app/core/core.module';
 
 @NgModule({
   imports: [
     CommonModule,
+    CoreModule,
     HomeRoutingModule,
-    // MarkdownModule.forRoot({
-    //   // loader: HttpClient,
-    //   markedOptions: {
-    //     provide: MarkedOptions2,
-    //     useValue: {
-    //       gfm: true,
-    //       tables: true,
-    //       breaks: false,
-    //       pedantic: false,
-    //       sanitize: false,
-    //       smartLists: true,
-    //       smartypants: false,
-    //     },
-    //   },
-    // }),
+    MarkdownModule.forRoot({
+      // loader: HttpClient,
+      markedOptions: {
+        provide: MarkedOptions,
+        useValue: {
+          gfm: true,
+          tables: true,
+          breaks: false,
+          pedantic: false,
+          sanitize: false,
+          smartLists: true,
+          smartypants: false,
+        },
+      },
+    }),
   ],
   declarations: [
     MainComponent,
@@ -44,6 +51,7 @@ import { ContentsComponent, HtmlComponent, MarkdownComponent } from './component
     ContentsComponent,
     HtmlComponent,
     MarkdownComponent,
+    XmlComponent,
   ],
   exports: [
     BreadcrumbComponent,
@@ -54,6 +62,7 @@ import { ContentsComponent, HtmlComponent, MarkdownComponent } from './component
     ContentsComponent,
     HtmlComponent,
     MarkdownComponent,
+    XmlComponent,
   ],
   providers: [
     HomeService,

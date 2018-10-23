@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
 /* @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800|Nanum+Gothic:400,700|Sarina|Stylish|Sunflower:300|Noto+Sans+KR'); */
+
 /* @import url('//fonts.googleapis.com/earlyaccess/jejuhallasan.css'); */
 
 * {
@@ -22,13 +23,11 @@ body {
   /* font-family: 'Sunflower', sans-serif; */
   /* font-family: 'Stylish', sans-serif; */
   /* font-family: 'Noto Sans KR', sans-serif; */
-  
 }
 
 .font-jejuhallasan {
   font-family: 'Jeju Hallasan', cursive;
 }
-
 
 .logo-text {
   font-family: 'Sarina', sans-serif;
@@ -104,3 +103,58 @@ footer {
 }
 
 @media (min-width: 1200px) {}
+
+/* S:Food Sample */
+
+.food-body {
+  background-color: rgb(64, 146, 146);
+  color: white;
+  padding: 4px;
+}
+
+.food-title {
+  font-weight: bold;
+}
+
+.food-desc {
+  margin-left: 20px;
+  margin-bottom: 1em;
+  font-size: 0.8rem;
+}
+
+.italic {
+  font-style: italic;
+}
+
+@media (min-width: 300px) {
+  .media-body {
+    display: block;
+    margin: 1rem;
+  }
+  
+  .media-body img {
+    max-width: 300px;
+    height: auto;
+  }
+
+  .media-body p {
+    max-width: 300px;
+    margin: 0.5rem;
+  }
+}
+
+
+@media (min-width: 992px) {
+  .media-body {
+    display: flex;
+    margin: 1rem;
+  }
+
+  .media-body p {
+    max-width: 400px;
+    margin-left: 1rem;
+  }
+}
+
+
+/* E:Food Sample */

@@ -98,6 +98,22 @@
       ]
     },
     {
+      "title": "ETC",
+      "pgid": "m04",
+      "subMenu": [
+        {
+          "title": "CBC Radio",
+          "pgid": "rss-canada",
+          "type": "xml"
+        },
+        {
+          "title": "Manual",
+          "pgid": "markdown",
+          "type": "markdown"
+        }
+      ]
+    },
+    {
       "title": "Facebook",
       "type": "extlink",
       "url": "https://www.facebook.com/groups/coska4u"

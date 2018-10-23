@@ -14,6 +14,7 @@ import {
   LoadingComponent,
 } from './components';
 import { TruncatePipe } from '@app/core/pipes';
+import { SafeHtmlPipe } from './pipes/safe-html.pipe';
 
 @NgModule({
   imports: [
@@ -26,6 +27,7 @@ import { TruncatePipe } from '@app/core/pipes';
     PaginationComponent,
     LoadingComponent,
     UndermaintenanceComponent,
+    SafeHtmlPipe,
   ],
   providers: [
     // HttpTokenProvider,
@@ -38,6 +40,7 @@ import { TruncatePipe } from '@app/core/pipes';
     PaginationComponent,
     LoadingComponent,
     UndermaintenanceComponent,
+    SafeHtmlPipe,
   ]
 })
 export class CoreModule { }
