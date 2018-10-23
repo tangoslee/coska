@@ -8,7 +8,9 @@
     "build": "ng build --aot --prod",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "build:tangos": "ng build --base-href=/coska/ --aot --prod",
+    "deploy:tangos": "npx ngh --dir=dist --repo=git@github.com:tangoslee/coska.git --no-silent"
   },
   "private": true,
   "dependencies": {
@@ -36,6 +38,7 @@
     "@types/jasmine": "~2.5.53",
     "@types/jasminewd2": "~2.0.2",
     "@types/node": "~6.0.60",
+    "angular-cli-ghpages": "^0.5.3",
     "codelyzer": "^4.0.1",
     "jasmine-core": "~2.6.2",
     "jasmine-spec-reporter": "~4.1.0",
