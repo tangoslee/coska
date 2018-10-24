@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 
@@ -11,11 +11,13 @@ import { DocMeta } from '@app/core/models/doc-meta';
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.css']
 })
-export class MainComponent implements OnInit {
+export class MainComponent implements OnInit, OnDestroy {
 
   docMeta: DocMeta = { type: 'html', docId: 'main' };
 
   getState: Observable<any>;
+  getStateSub: any;
+  routeSub: any;
 
   constructor(
     private store: Store<AppState>,
@@ -27,8 +29,8 @@ export class MainComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getState.subscribe(({ pgidMap }) => {
-      this.route.params.subscribe(({ ppgid, pgid }) => {
+    this.getStateSub = this.getState.subscribe(({ pgidMap }) => {
+      this.routeSub = this.route.params.subscribe(({ ppgid, pgid }) => {
         // console.log({ppgid, pgid});
         const { type } = (pgidMap[pgid]) ? pgidMap[pgid] : { type: null };
         if (type) {
@@ -42,4 +44,13 @@ export class MainComponent implements OnInit {
   }
 
 
+  ngOnDestroy() {
+    if (this.getStateSub) {
+      this.getStateSub.unsubscribe();
+    }
+
+    if (this.routeSub) {
+      this.routeSub.unsubscribe();
+    }
+  }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
 import { HomeService } from '@app/home/services';
 import { DocMeta } from '@app/core/models/doc-meta';
 
@@ -7,13 +7,14 @@ import { DocMeta } from '@app/core/models/doc-meta';
   templateUrl: './html.component.html',
   styleUrls: ['./html.component.css']
 })
-export class HtmlComponent implements OnInit, OnChanges {
+export class HtmlComponent implements OnInit, OnChanges, OnDestroy {
 
 
   @Input() docMeta: DocMeta = null;
 
   data: string;
 
+  docSub: any;
 
   constructor(
     private homeService: HomeService,
@@ -21,11 +22,16 @@ export class HtmlComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (this.docMeta) {
-      this.homeService.getHTML(this.docMeta.docId).subscribe(data => this.data = data);
+      this.docSub = this.homeService.getHTML(this.docMeta.docId).subscribe(data => this.data = data);
     }
   }
 
   ngOnInit() {
   }
 
+  ngOnDestroy() {
+    if (this.docSub) {
+      this.docSub.unsubscribe();
+    }
+  }
 }

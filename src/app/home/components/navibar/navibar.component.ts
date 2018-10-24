@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState, selectAppState } from '@app/store/app.states';
 import { Observable } from 'rxjs/Observable';
@@ -12,7 +12,7 @@ import { Location } from '@angular/common';
   templateUrl: './navibar.component.html',
   styleUrls: ['./navibar.component.css']
 })
-export class NavibarComponent implements OnInit {
+export class NavibarComponent implements OnInit, OnDestroy {
 
   show = false; // dropdown menu
   showNavi = false; // mobile navibar
@@ -23,6 +23,8 @@ export class NavibarComponent implements OnInit {
   pgidMap: any;
 
   getState: Observable<any>;
+  getStateSub: any;
+  routeSub: any;
 
   constructor(
     private store: Store<AppState>,
@@ -31,11 +33,11 @@ export class NavibarComponent implements OnInit {
     private location: Location,
   ) {
     this.getState = this.store.select(selectAppState);
-    this.getState.subscribe(({ menus, pgidMap }) => {
+    this.getStateSub = this.getState.subscribe(({ menus, pgidMap }) => {
       this.menus = menus;
       this.pgidMap = pgidMap;
 
-      this.route.params.subscribe(params => {
+      this.routeSub = this.route.params.subscribe(params => {
         const { ppgid, pgid } = params;
 
         // redirect to the 1st submenu;
@@ -51,6 +53,16 @@ export class NavibarComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  ngOnDestroy() {
+    if (this.getStateSub) {
+      this.getStateSub.unsubscribe();
+    }
+
+    if (this.routeSub) {
+      this.routeSub.unsubscribe();
+    }
   }
 
   toggleShow() {

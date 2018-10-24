@@ -39,7 +39,6 @@ export class HomeService {
         'Content-type': 'text/html; charset=utf-8'
       }
     };
-    // this.appService.loading();
     return this.apiService.get(`${environment.API_URL}/assets/markdowns/${path}.md`, {}, options);
   }
 
@@ -74,10 +73,7 @@ export class HomeService {
           const xslt = new XSLTProcessor();
           xslt.importStylesheet(xsl);
 
-          console.log(xml);
-
           const dom = xslt.transformToFragment(xml, document);
-          console.log({ dom });
           const html = (new XMLSerializer()).serializeToString(dom);
 
           return html;
