@@ -22,7 +22,13 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnChanges(changes: SimpleChanges) {
     if (this.docMeta) {
-      this.docSub = this.homeService.getHTML(this.docMeta.docId).subscribe(data => this.data = data);
+      this.docSub = this.homeService.getHTML(this.docMeta.docId)
+        .subscribe(data => {
+          this.data = data;
+        }, err => {
+          console.error({ err });
+          this.data = '';
+        });
     }
   }
 

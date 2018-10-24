@@ -20,7 +20,14 @@ export class XmlComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnChanges(changes: SimpleChanges) {
     if (this.docMeta) {
-      this.docSub = this.homeService.getXML(this.docMeta.docId).subscribe(data => this.data = data);
+      this.docSub = this.homeService.getXML(this.docMeta.docId)
+        .subscribe(data => {
+          this.data = data;
+        }, err => {
+          // FIXME: Redirect to 404 Not Found
+          console.error({err});
+          this.data = '';
+        });
     }
   }
 
