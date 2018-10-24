@@ -134,7 +134,7 @@ footer {
   
   .media-body img {
     max-width: 300px;
-    height: auto;
+    object-fit: contain;
   }
 
   .media-body p {
