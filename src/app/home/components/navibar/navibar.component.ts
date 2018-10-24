@@ -14,8 +14,9 @@ import { Location } from '@angular/common';
 })
 export class NavibarComponent implements OnInit, OnDestroy {
 
-  show = false; // dropdown menu
+  // show = false; // dropdown menu
   showNavi = false; // mobile navibar
+  showDropDown = [];
 
   baseHref = environment.BASE_HREF;
 
@@ -45,7 +46,7 @@ export class NavibarComponent implements OnInit, OnDestroy {
           const { subMenu } = this.pgidMap[ppgid];
           const [sub, ] = (subMenu)
             ? subMenu.filter(menu => Object.prototype.hasOwnProperty.call(menu, 'pgid'))
-            : [ , , ];
+            : [, , ];
           this.router.navigateByUrl(`${this.location.path()}/${sub.pgid}`);
         }
       });
@@ -65,12 +66,16 @@ export class NavibarComponent implements OnInit, OnDestroy {
     }
   }
 
-  toggleShow() {
-    this.show = !this.show;
+  closeDropDown() {
+    this.showDropDown = [];
+    this.showNavi = false;
   }
 
-  dropdownClose(e) {
-    this.show = false;
+  toggleDropDown(i: number) {
+    if (this.showDropDown[i] === undefined) {
+      this.showDropDown[i] = false;
+    }
+    this.showDropDown[i] = !this.showDropDown[i];
   }
 
   toggleNavi() {

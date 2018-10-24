@@ -7,19 +7,29 @@
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent" [ngClass]="{ show: showNavi }">
     <ul class="navbar-nav ml-auto">
-      <!-- <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown"
+
+      <!-- // Mobile Menu -->
+      <li class="nav-item dropdown d-block d-lg-none" *ngFor="let menu of menus; let i = index;">
+        <a *ngIf="menu.type && menu.type === 'extlink'" class="nav-link" href="{{menu.url}}" target="_blank">{{menu.title}}</a>
+        <a *ngIf="menu.pgid" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" (click)="toggleDropDown(i)"
           aria-haspopup="true" aria-expanded="false">
-          Dropdown
+          {{menu.title}}
         </a>
-        <div class="dropdown-menu show" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Another action</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Something else here</a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown" [ngClass]="{ show: showDropDown[i] }">
+          <ng-container *ngFor="let sub of menu.subMenu">
+            <ng-container [ngSwitch]="sub.type">
+              <h6  *ngSwitchCase="'header'" class="dropdown-header">{{sub.title}}</h6>
+              <div *ngSwitchCase="'divider'" class="dropdown-divider"></div>
+              <a *ngSwitchDefault class="nav-link" [routerLink]="['/' + baseHref, menu.pgid, sub.pgid]" 
+              (click)="closeDropDown()"
+              routerLinkActive="active">{{sub.title}}</a>      
+            </ng-container>
+          </ng-container>
         </div>
-      </li> -->
-      <li class="nav-item" *ngFor="let menu of menus">
+      </li>
+
+      <!-- // Desktop Menu -->
+      <li class="nav-item d-none d-lg-block" *ngFor="let menu of menus">
         <a *ngIf="menu.pgid" class="nav-link" [routerLink]="['/' + baseHref, menu.pgid]" routerLinkActive="active">{{menu.title}}</a>
         <a *ngIf="menu.type && menu.type === 'extlink'" class="nav-link" href="{{menu.url}}" target="_blank">{{menu.title}}</a>
       </li>
