@@ -25,3 +25,13 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+
+- CLI로 contents 생성 tools
+   . 뉴컨텐츠 ->  text + 사진들 md (include meta) -> 목록 재생성 + cleand md file - 사진 ( 타이틀, 설명, ) + 추가 사진
+
+- 이벤트 보드 - 구글 칼렌더 API*연동 (월별, 년도별)
+
+- 기존 컨텐츠는 기존 방식으로 (XML에 )
+
+
