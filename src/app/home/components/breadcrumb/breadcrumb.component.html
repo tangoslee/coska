@@ -3,8 +3,8 @@
     <li class="breadcrumb-item"><a routerLink="/{{baseHref}}" routerLinkActive="active">Home</a></li>
 
     <li class="breadcrumb-item" *ngFor="let path of paths; let last = last;">
-      <a *ngIf="!last" [routerLink]="['/' + baseHref, path]"  routerLinkActive="active">{{pgidMap[path].title}}</a>
-      <span *ngIf="last">{{pgidMap[path].title}}</span>
+      <a *ngIf="!last" [routerLink]="['/' + baseHref, path]"  routerLinkActive="active">{{uriMap[path].title}}</a>
+      <span *ngIf="last">{{uriMap[path].title}}</span>
     </li>
   </ol>
 </nav>

@@ -20,7 +20,6 @@ import { AppState, selectAppState } from '@app/store/app.states';
 })
 export class SidebarComponent implements OnInit, OnDestroy {
 
-  pgidMap: any;
   menus: Menu[];
   ppgid: string;
 
@@ -35,14 +34,13 @@ export class SidebarComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
   ) {
     this.getState = this.store.select(selectAppState);
-    this.getStateSub = this.getState.subscribe(({ pgidMap }) => {
-      this.pgidMap = pgidMap;
+    this.getStateSub = this.getState.subscribe(({ uriMap }) => {
 
       this.routeSub = this.route.params.subscribe(params => {
         const { ppgid } = params;
 
         this.ppgid = ppgid;
-        this.menus = (pgidMap[ppgid]) ? pgidMap[ppgid].subMenu : null;
+        this.menus = (uriMap[ppgid]) ? uriMap[ppgid].subMenu : null;
       });
     });
 

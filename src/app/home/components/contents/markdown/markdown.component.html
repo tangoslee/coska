@@ -1,1 +1,10 @@
-<markdown *ngIf="data" [data]="data"></markdown>
+<div *ngIf="content">
+  <!-- <pre *ngIf="content.meta">{{content.meta | json}}</pre> -->
+  <div *ngIf="content.meta" class="row">
+    <div class="container">
+      <h1 class="display-8">{{content.meta.title}}</h1>
+      <p class="lead text-muted">Published at {{content.meta.publishedAt | date}}</p>
+    </div>
+  </div>
+  <div *ngIf="content.body" [innerHTML]="content.body | safeHTML"></div>
+</div>

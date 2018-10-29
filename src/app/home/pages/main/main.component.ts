@@ -4,7 +4,8 @@ import { Observable } from 'rxjs/Observable';
 
 import { Store } from '@ngrx/store';
 import { AppState, selectAppState } from '@app/store/app.states';
-import { DocMeta } from '@app/core/models/doc-meta';
+import { Content, Section } from '@app/core/models';
+import { GetContent, GetSection } from '@app/store/actions/app.action';
 
 @Component({
   selector: 'app-main',
@@ -13,7 +14,8 @@ import { DocMeta } from '@app/core/models/doc-meta';
 })
 export class MainComponent implements OnInit, OnDestroy {
 
-  docMeta: DocMeta = { type: 'html', docId: 'main' };
+  uriMap: any;
+  content: Content;
 
   getState: Observable<any>;
   getStateSub: any;
@@ -25,21 +27,33 @@ export class MainComponent implements OnInit, OnDestroy {
   ) {
     this.getState = this.store.select(selectAppState);
 
-
+    this.getStateSub = this.getState.subscribe(({ uriMap, content }) => {
+      // console.log({uriMap, content});
+      this.content = content;
+      this.uriMap = uriMap;
+    });
   }
 
   ngOnInit() {
-    this.getStateSub = this.getState.subscribe(({ pgidMap }) => {
-      this.routeSub = this.route.params.subscribe(({ ppgid, pgid }) => {
-        // console.log({ppgid, pgid});
-        const { type } = (pgidMap[pgid]) ? pgidMap[pgid] : { type: null };
-        if (type) {
-          this.docMeta = {
-            type,
-            docId: (ppgid && pgid) ? `${ppgid}/${pgid}` : 'main'
-          };
+    this.routeSub = this.route.params.subscribe(route => {
+      const { ppgid, pgid, postid } = route;
+      const content = this.content;
+      const id = (ppgid && pgid) ? `${ppgid}/${pgid}` : '';
+
+      // console.log({ id, hit: this.uriMap[id] });
+      if (postid) {
+        console.log('getpost:', postid);
+        this.store.dispatch(new GetContent({ ...content, id: `/section/${ppgid}/${pgid}/${postid}`, type: 'markdown' }));
+      } else if (this.uriMap && this.uriMap[id] !== undefined) {
+        const { type } = this.uriMap[id];
+        if (type === 'section') {
+          this.store.dispatch(new GetSection({ ...content, id, type }));
+        } else {
+          this.store.dispatch(new GetContent({ ...content, id, type }));
         }
-      });
+      } else {
+        this.store.dispatch(new GetContent({ type: 'html', id: 'main', body: '' }));
+      }
     });
   }
 
@@ -53,4 +67,6 @@ export class MainComponent implements OnInit, OnDestroy {
       this.routeSub.unsubscribe();
     }
   }
+
+
 }

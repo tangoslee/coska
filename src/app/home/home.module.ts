@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { MarkdownModule, MarkedOptions } from 'ngx-markdown';
 import { HomeRoutingModule } from './home-routing.module';
 
 import {
@@ -20,27 +19,14 @@ import {
   XmlComponent,
 } from './components/contents';
 import { CoreModule } from '@app/core/core.module';
+import { SectionComponent } from './components/section/section.component';
+import { FileNotFoundComponent } from './components/file-not-found/file-not-found.component';
 
 @NgModule({
   imports: [
     CommonModule,
     CoreModule,
     HomeRoutingModule,
-    MarkdownModule.forRoot({
-      // loader: HttpClient,
-      markedOptions: {
-        provide: MarkedOptions,
-        useValue: {
-          gfm: true,
-          tables: true,
-          breaks: false,
-          pedantic: false,
-          sanitize: false,
-          smartLists: true,
-          smartypants: false,
-        },
-      },
-    }),
   ],
   declarations: [
     MainComponent,
@@ -52,6 +38,8 @@ import { CoreModule } from '@app/core/core.module';
     HtmlComponent,
     MarkdownComponent,
     XmlComponent,
+    SectionComponent,
+    FileNotFoundComponent,
   ],
   exports: [
     BreadcrumbComponent,
@@ -63,6 +51,8 @@ import { CoreModule } from '@app/core/core.module';
     HtmlComponent,
     MarkdownComponent,
     XmlComponent,
+    SectionComponent,
+    FileNotFoundComponent,
   ],
   providers: [
     HomeService,

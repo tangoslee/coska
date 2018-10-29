@@ -13,7 +13,10 @@
 
       <div class="row main-body">
         <div class="col-md">
-          <app-contents [docMeta]="docMeta"></app-contents>
+          <ng-container [ngSwitch]="content.type">
+            <app-section *ngSwitchCase="'section'"></app-section>
+            <app-contents *ngSwitchDefault [content]="content"></app-contents>
+          </ng-container>
         </div>
       </div>
 

@@ -21,7 +21,6 @@ export class NavibarComponent implements OnInit, OnDestroy {
   baseHref = environment.BASE_HREF;
 
   menus: Menu[];
-  pgidMap: any;
 
   getState: Observable<any>;
   getStateSub: any;
@@ -34,16 +33,15 @@ export class NavibarComponent implements OnInit, OnDestroy {
     private location: Location,
   ) {
     this.getState = this.store.select(selectAppState);
-    this.getStateSub = this.getState.subscribe(({ menus, pgidMap }) => {
+    this.getStateSub = this.getState.subscribe(({ menus, uriMap }) => {
       this.menus = menus;
-      this.pgidMap = pgidMap;
 
       this.routeSub = this.route.params.subscribe(params => {
         const { ppgid, pgid } = params;
 
         // redirect to the 1st submenu;
         if (ppgid && !pgid) {
-          const { subMenu } = this.pgidMap[ppgid];
+          const { subMenu } = uriMap[ppgid];
           const [sub, ] = (subMenu)
             ? subMenu.filter(menu => Object.prototype.hasOwnProperty.call(menu, 'pgid'))
             : [, , ];

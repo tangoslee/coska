@@ -154,7 +154,26 @@ footer {
     max-width: 400px;
     margin-left: 1rem;
   }
+
+}
+/* E:Food Sample */
+
+
+/* S:Cards */
+.post-container {
+  display: flex;
+  flex-wrap: wrap;
 }
 
+.card {
+  margin: 1rem;
+}
 
-/* E:Food Sample */
+.card-title a {
+  /* pointer-events: none; */
+  /* cursor: default; */
+  text-decoration: none;
+  color: #212529;
+}
+
+/* E:Cards */

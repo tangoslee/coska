@@ -1,33 +1,46 @@
 import { Maintenance } from '@app/core/models/maintenance';
 import { Menu } from '@app/core/models/menu';
 import { AppActions, AppActionTypes } from '../actions/app.action';
+import { Content } from '@app/core/models';
+import { Section } from '@app/core/models/section';
+// import { Observable } from 'rxjs/Observable';
+
+// import 'rxjs/add/operator/of';
+// import { Subscriber } from 'rxjs/Subscriber';
 
 export interface State {
   maintenance: Maintenance | null;
+  error: any | null;
   menus: Menu[];
-  pgidMap: any;
+  uriMap: any;
+  content: Content | null;
+  section: Section | null;
 }
 
 const initialState: State = {
   maintenance: null,
+  error: null,
   menus: [],
-  pgidMap: {}
+  uriMap: {},
+  content: { type: 'html', id: 'main', body: '' },
+  section: null,
 };
 
-const hashPgidMap = ms => {
-  return ms.reduce((hash, c) => {
-    const { title, pgid, type, subMenu } = c;
+const hashURIMap = (menus, parent = null) => {
+  return menus.reduce((hash, menu) => {
+    const { title, pgid, type, subMenu } = menu;
     if (pgid) {
+      const id = (parent) ? `${parent}/${pgid}` : pgid;
 
-      hash[pgid] = {
+      hash[id] = {
         title,
         pgid,
         type: type ? type : null,
         subMenu: subMenu ? subMenu : null
       };
 
-      if (Object.prototype.hasOwnProperty.call(c, 'subMenu')) {
-        const childHash = hashPgidMap(c.subMenu);
+      if (Object.prototype.hasOwnProperty.call(menu, 'subMenu')) {
+        const childHash = hashURIMap(menu.subMenu, menu.pgid);
         hash = { ...hash, ...childHash };
       }
     }
@@ -36,19 +49,70 @@ const hashPgidMap = ms => {
   }, {});
 };
 
+
 export function reducer(state = initialState, action: AppActions): State {
   switch (action.type) {
     case AppActionTypes.GET_STATUS_SUCCESS: {
       const { maintenance, menus } = action.payload;
-      const pgidMap = hashPgidMap(menus);
+      const uriMap = hashURIMap(menus);
 
       return {
         ...state,
         maintenance,
         menus,
-        pgidMap
+        uriMap,
+        error: null,
       };
     }
+
+    // Content
+    case AppActionTypes.GET_CONTENT_SUCCESS: {
+      const { payload } = action;
+      return {
+        ...state,
+        content: payload,
+        error: null,
+      };
+    }
+
+    // FIXME: Consider redirecting to 404 page at Effects.
+    case AppActionTypes.GET_CONTENT_FAILURE: {
+      const { content } = state;
+      const error = action.payload;
+      return {
+        ...state,
+        error,
+        content: {
+          ...content,
+          id: '',
+          body: null,
+          meta: null,
+        },
+      };
+    }
+
+    // Section  FIXME: divide to post.state or other
+    // Content
+    case AppActionTypes.GET_SECTION_SUCCESS: {
+      const { payload } = action;
+      const { content } = state;
+      return {
+        ...state,
+        content: { ...content, type: 'section' },
+        section: payload,
+        error: null,
+      };
+    }
+
+    // FIXME: Consider redirecting to 404 page at Effects.
+    case AppActionTypes.GET_SECTION_FAILURE: {
+      return {
+        ...state,
+        section: null,
+        error: null,
+      };
+    }
+
 
     default: {
       return state;

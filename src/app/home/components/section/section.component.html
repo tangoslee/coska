@@ -1,0 +1,16 @@
+<app-file-not-found *ngIf="error"></app-file-not-found>
+<div class="post-container" *ngIf="!error && section">
+
+  <div class="card" style="width: 18rem;" *ngFor="let post of section.posts">
+    <img *ngIf="post?.coverImage" class="card-img-top" src="{{post.coverImage.replace('300x0', '300x200')}}" alt="Card image cap">
+    <div class="card-body">
+      <h5 class="card-title font-weight-bold"><a [routerLink]="[link, post.id]">{{post.title}}</a></h5>
+      <p class="card-text">{{post.body | truncate:"140"}}</p>
+
+      <blockquote class="blockquote mb-0">
+        <div class="blockquote-footer">Published at <cite title="Source Title">{{post.publishedAt | date}}</cite></div>
+      </blockquote>
+    </div>
+  </div>
+
+</div>

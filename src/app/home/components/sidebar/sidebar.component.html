@@ -10,12 +10,15 @@
 
           <li class="nav-item" *ngFor="let menu of menus">
 
-            <h2 *ngIf="menu.type === 'header'" class="menu-header">{{menu.title}}</h2>
+            <ng-container [ngSwitch]="menu.type">
 
-            <hr *ngIf="menu.type === 'divider'" />
+              <h2 *ngSwitchCase="'header'" class="menu-header">{{menu.title}}</h2>
 
-            <a *ngIf="menu.pgid" class="nav-link" [routerLink]="['/home', ppgid, menu.pgid]" 
-              routerLinkActive="active">{{menu.title}}</a>
+              <hr *ngSwitchCase="'divider'" />
+
+              <a *ngSwitchDefault class="nav-link" [routerLink]="['/home', ppgid, menu.pgid]" routerLinkActive="active">{{menu.title}}</a>
+
+            </ng-container>
           </li>
 
         </ul>

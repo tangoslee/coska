@@ -12,13 +12,14 @@ export class ApiService {
   ) { }
 
   private handleError(errors: any) {
+    console.log('hadleError');
     return new ErrorObservable(errors);
   }
 
   get(path: string, data: any = {}, options: any = {}): Observable<any> {
     options.params = data;
-    return this.http.get(`${path}`, options)
-      .pipe(catchError(this.handleError));
+    return this.http.get(`${path}`, options);
+      // .pipe(catchError(this.handleError));
   }
 
   post(path: string, body: Object = {}, options: any = {}): Observable<any> {
