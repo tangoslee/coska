@@ -30,7 +30,7 @@ export class SectionComponent implements OnInit {
 
     this.getStateSub = this.getState.subscribe(state => {
       const { section, error } = state;
-      console.log({ section });
+      // console.log({ section });
       this.section = section;
       this.error = error;
     });

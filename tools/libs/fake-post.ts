@@ -37,7 +37,7 @@ export class FakePost implements Post {
     this.body = this.getBody();
     const images = this.body.match(imagePattern);
     // console.log({images: images});
-    this.coverImage = (images) ? images[1] : ''; // this.getRandomImage();
+    this.coverImage = (images) ? images[1].replace(/_800x0/, '_300x0') : ''; // this.getRandomImage();
 
   }
 
@@ -61,7 +61,7 @@ export class FakePost implements Post {
       });
 
       // replace .src/assets => /assets
-    return `${path.dirname(target).replace(/\S+\/assets/, '/assets')}/${image}`;
+    return `${path.dirname(target).replace(/\S+\/assets/, 'assets')}/${image}`;
   }
 
   getRandomBody(n: number = 1): string {

@@ -132,11 +132,11 @@ export class Util {
           const output3 = output1.replace(defaultResolution, `_800x0`);
 
           // console.log({ output1, output2 });
-          const resize1 = this.resize(src, width, 0, output1);
+          // const resize1 = this.resize(src, width, 0, output1);
           const resize2 = this.resize(src, width, height, output2);
           const resize3 = this.resize(src, 800, 0, output3);
 
-          Promise.all([resize1, resize2, resize3])
+          Promise.all([resize2, resize3])
             .then(data => {
               data.map(({size}) => console.log(`resize done: ${size} bytes`));
             });

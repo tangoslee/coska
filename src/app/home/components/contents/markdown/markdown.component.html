@@ -3,7 +3,7 @@
   <div *ngIf="content.meta" class="row">
     <div class="container">
       <h1 class="display-8">{{content.meta.title}}</h1>
-      <p class="lead text-muted">Published at {{content.meta.publishedAt | date}}</p>
+      <p *ngIf="content.meta?.publishedAt" class="lead text-muted">Published at {{content.meta.publishedAt | date}}</p>
     </div>
   </div>
   <div *ngIf="content.body" [innerHTML]="content.body | safeHTML"></div>

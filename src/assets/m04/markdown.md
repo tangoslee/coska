@@ -1,10 +1,3 @@
----
-title: Manual
-date: 2018-10-10 19:00:32
-tags: Manual
-custam: tangos
----
-
 # ngx-markdown
 
 ## Installation
@@ -63,13 +56,6 @@ import { MarkdownModule } from 'ngx-markdown';
   ],
 })
 ```
-
-![Logo](/assets/m04/maria.png)
-![Logo](/assets/m04/maria.png)
-![Logo](/assets/m04/maria.png)
-![Logo](/assets/m04/maria.png)
-![Logo](/assets/m04/maria.png)
-
 @see:
 
 - <https://www.npmjs.com/package/ngx-markdown>
