@@ -76,22 +76,22 @@
       "pgid": "m03",
       "subMenu": [
         {
-          "title": "신년회",
+          "title": "New Year Party",
           "pgid": "m030201",
           "type": "html"
         },
         {
-          "title": "가족 Picnic",
+          "title": "Picnics",
           "pgid": "m030102",
           "type": "html"
         },
         {
-          "title": "그룹 캠핑",
+          "title": "Campings",
           "pgid": "m030103",
-          "type": "html"
+          "type": "section"
         },
         {
-          "title": "골프대회",
+          "title": "Golf Coska",
           "pgid": "m030104",
           "type": "html"
         }
