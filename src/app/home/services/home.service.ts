@@ -54,7 +54,14 @@ export class HomeService {
         const html = parsed.html.replace(
           /<pre><code class="lang\-([^\"]+)"/mg,
           '<pre class="language-$1"><code class="language-$1"'
-        );
+        )
+        // <p><img ....></p> => <figure><img ....><figurecaption>...</figuracaption></figure>
+        .replace(
+          /<p>(<img .*?alt="(.*?)"[^>]*>)<\/p>/mg, 
+          '<figure class="post-image">$1<figurecaption>$2</figurecaption></figure>'
+        )
+        ;
+        // console.log({ html });
 
         // By Prismjs CSS Rule, code must be <pre class="language-xxx"><code class="language-xxx">
         return { type: 'markdown', id: path, body: html, meta: parsed.parsedYaml };
