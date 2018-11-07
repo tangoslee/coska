@@ -78,12 +78,12 @@
         {
           "title": "New Year Party",
           "pgid": "m030201",
-          "type": "html"
+          "type": "section"
         },
         {
           "title": "Picnics",
           "pgid": "m030102",
-          "type": "html"
+          "type": "section"
         },
         {
           "title": "Campings",
@@ -93,7 +93,7 @@
         {
           "title": "Golf Coska",
           "pgid": "m030104",
-          "type": "html"
+          "type": "section"
         }
       ]
     },
