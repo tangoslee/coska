@@ -9,7 +9,7 @@ import { Observable } from 'rxjs/Observable';
   styles: [''],
   template: `
   <app-file-not-found *ngIf="error"></app-file-not-found>
-  <ng-container *ngIf="!error" [ngSwitch]="content.type">
+  <ng-container *ngIf="!error" [ngSwitch]="content.doctype">
     <app-html *ngSwitchCase="'html'" [content]="content"></app-html>
     <app-markdown *ngSwitchCase="'markdown'" [content]="content"></app-markdown>
     <app-xml *ngSwitchCase="'xml'" [content]="content"></app-xml>

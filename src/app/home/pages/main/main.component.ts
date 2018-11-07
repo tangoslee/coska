@@ -10,10 +10,9 @@ import { GetContent, GetSection } from '@app/store/actions/app.action';
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
-  styleUrls: ['./main.component.css']
+  styleUrls: ['./main.component.css'],
 })
 export class MainComponent implements OnInit, OnDestroy {
-
   uriMap: any;
   content: Content;
 
@@ -21,10 +20,7 @@ export class MainComponent implements OnInit, OnDestroy {
   getStateSub: any;
   routeSub: any;
 
-  constructor(
-    private store: Store<AppState>,
-    private route: ActivatedRoute,
-  ) {
+  constructor(private store: Store<AppState>, private route: ActivatedRoute) {
     this.getState = this.store.select(selectAppState);
 
     this.getStateSub = this.getState.subscribe(({ uriMap, content }) => {
@@ -38,25 +34,33 @@ export class MainComponent implements OnInit, OnDestroy {
     this.routeSub = this.route.params.subscribe(route => {
       const { ppgid, pgid, postid } = route;
       const content = this.content;
-      const id = (ppgid && pgid) ? `${ppgid}/${pgid}` : '';
+      const id = ppgid && pgid ? `${ppgid}/${pgid}` : '';
 
       // console.log({ id, hit: this.uriMap[id] });
       if (postid) {
-        console.log('getpost:', postid);
-        this.store.dispatch(new GetContent({ ...content, id: `/section/${ppgid}/${pgid}/${postid}`, type: 'markdown' }));
+        const { layout, doctype } = this.uriMap[id];
+        // console.log('getpost:', postid, {layout, doctype});
+        this.store.dispatch(
+          new GetContent({ ...content, id: `/section/${ppgid}/${pgid}/${postid}`, layout: 'page', doctype })
+        );
       } else if (this.uriMap && this.uriMap[id] !== undefined) {
-        const { type } = this.uriMap[id];
-        if (type === 'section') {
-          this.store.dispatch(new GetSection({ ...content, id, type }));
+        const { layout, doctype } = this.uriMap[id];
+        if (layout === 'section') {
+          // console.log('getsection')
+          this.store.dispatch(new GetSection({ ...content, id, layout, doctype }));
         } else {
-          this.store.dispatch(new GetContent({ ...content, id, type }));
+          // page
+          // console.log('getpage')
+          this.store.dispatch(new GetContent({ ...content, id, layout, doctype }));
         }
       } else {
-        this.store.dispatch(new GetContent({ type: 'html', id: 'main', body: '' }));
+        // console.log('getmain')
+        this.store.dispatch(
+          new GetContent({ layout: 'page', doctype: 'html', id: 'main', body: '' })
+        );
       }
     });
   }
-
 
   ngOnDestroy() {
     if (this.getStateSub) {
@@ -67,6 +71,4 @@ export class MainComponent implements OnInit, OnDestroy {
       this.routeSub.unsubscribe();
     }
   }
-
-
 }

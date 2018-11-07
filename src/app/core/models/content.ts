@@ -1,6 +1,7 @@
 export interface Content {
-  type: string;
+  layout?: string;
+  doctype: string;
   id: string;
-  body: string;
+  body: any;
   meta?: any;
 }

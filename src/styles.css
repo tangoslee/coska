@@ -208,6 +208,13 @@ footer {
   color: #212529;
 }
 
+a.post-link {
+  /* pointer-events: none; */
+  /* cursor: default; */
+  text-decoration: none;
+  color: #212529;
+}
+
 /* E:Cards */
 
 .post-image figurecaption {

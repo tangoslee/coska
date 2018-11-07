@@ -22,20 +22,24 @@ const initialState: State = {
   error: null,
   menus: [],
   uriMap: {},
-  content: { type: 'html', id: 'main', body: '' },
+  content: { doctype: 'html', id: 'main', body: '' },
   section: null,
 };
 
 const hashURIMap = (menus, parent = null) => {
   return menus.reduce((hash, menu) => {
-    const { title, pgid, type, subMenu } = menu;
+    const { title, pgid, layout, doctype, display, type, format, subMenu } = menu;
     if (pgid) {
       const id = (parent) ? `${parent}/${pgid}` : pgid;
 
       hash[id] = {
         title,
         pgid,
+        layout,
+        doctype,
+        display: display ? display : null,
         type: type ? type : null,
+        format: format ? format : null,
         subMenu: subMenu ? subMenu : null
       };
 
@@ -98,7 +102,7 @@ export function reducer(state = initialState, action: AppActions): State {
       const { content } = state;
       return {
         ...state,
-        content: { ...content, type: 'section' },
+        content: { ...content, layout: 'section' },
         section: payload,
         error: null,
       };

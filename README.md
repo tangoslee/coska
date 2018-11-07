@@ -106,3 +106,11 @@ assets/
 | GET    | /home/:menuId/:subMenuId | Display a single content when the subMenu.type in (html, markdown, xml) <br/> Display the contents list when the subMenu.type in (section) |
 | GET    | /home/:menuId/:subMenuId/:postId            | Display a post by postId |
 
+
+## Menu Plan
+
+| Key | Value | Description |
+|-----|-------|-------------|
+| laylout| page / section / extlink / header / divider | page: single content in one page <br/> section: multiple contents in one page |
+| doctype | xml / markdown / html | document format of the content |
+| display | card / list | a display way of content. |

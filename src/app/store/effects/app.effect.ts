@@ -41,10 +41,10 @@ export class AppEffects {
   GetContent: Observable<Action> = this.actions.pipe(
     ofType(AppActionTypes.GET_CONTENT),
     map(({ payload }: GetContent) => {
-      const { type } = payload;
+      const { doctype } = payload;
 
 
-      switch (type) {
+      switch (doctype) {
         case 'html': {
           return new GetDocHTML(payload);
         }
@@ -59,7 +59,7 @@ export class AppEffects {
       }
 
 
-      return new GetContentFailure(`Unsupported content type: ${type}`);
+      return new GetContentFailure(`Unsupported content doctype: ${doctype}`);
     })
   );
 
@@ -68,10 +68,10 @@ export class AppEffects {
     .pipe(
       ofType(AppActionTypes.GET_DOC_HTML),
       switchMap((action: GetDocHTML) => {
-        const { id } = action.payload;
+        const { id, layout } = action.payload;
         return this.homeService.getHTML(id)
           .pipe(
-            map(data => new GetContentSuccess(data)),
+            map(data => new GetContentSuccess({...data, layout})),
             catchError(error => Observable.of(new GetContentFailure(error)))
           );
       })
@@ -82,10 +82,10 @@ export class AppEffects {
     .pipe(
       ofType(AppActionTypes.GET_DOC_MARKDOWN),
       switchMap((action: GetDocMarkdown) => {
-        const { id } = action.payload;
+        const { id, layout } = action.payload;
         return this.homeService.getMarkDown(id)
           .pipe(
-            map(data => new GetContentSuccess(data)),
+            map(data => new GetContentSuccess({...data, layout})),
             catchError(error => Observable.of(new GetContentFailure(error)))
           );
       })
@@ -96,10 +96,10 @@ export class AppEffects {
     .pipe(
       ofType(AppActionTypes.GET_DOC_XML),
       switchMap((action: GetDocXML) => {
-        const { id } = action.payload;
+        const { id, layout } = action.payload;
         return this.homeService.getXML(id)
           .pipe(
-            map(data => new GetContentSuccess(data)),
+            map(data => new GetContentSuccess({...data, layout})),
             catchError(error => {
               return Observable.of(new GetContentFailure(error));
             })
@@ -113,8 +113,8 @@ export class AppEffects {
       ofType(AppActionTypes.GET_SECTION),
       switchMap((action: GetSection) => {
         // console.log({ GetSection: action.payload });
-        const { id, type } = action.payload;
-        return this.homeService.getSection(`${type}/${id}`)
+        const { id, layout } = action.payload;
+        return this.homeService.getSection(`${layout}/${id}`)
           .pipe(
             map(section => {
               return new GetSectionSuccess(section);

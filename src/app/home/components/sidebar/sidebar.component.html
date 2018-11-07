@@ -10,7 +10,7 @@
 
           <li class="nav-item" *ngFor="let menu of menus">
 
-            <ng-container [ngSwitch]="menu.type">
+            <ng-container [ngSwitch]="menu.layout">
 
               <h2 *ngSwitchCase="'header'" class="menu-header">{{menu.title}}</h2>
 

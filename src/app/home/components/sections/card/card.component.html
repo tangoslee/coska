@@ -1,0 +1,16 @@
+<div class="post-container" *ngIf="posts">
+
+  <div class="card" style="width: 18rem;" *ngFor="let post of posts">
+    <img *ngIf="post?.coverImage" class="card-img-top" attr.data-src="assets/img/E9E9E9-0.8.png" attr.data-id="{{post.id}}"
+      src="{{post.coverImage}}" alt="Card image cap">
+    <div class="card-body">
+      <h5 class="card-title font-weight-bold"><a [routerLink]="[link, post.id]">{{post.title}}</a></h5>
+      <p class="card-text">{{post.desc | truncate:"140"}}</p>
+
+      <blockquote class="blockquote mb-0">
+        <div class="blockquote-footer">Published at <cite title="Source Title">{{post.publishedAt | date}}</cite></div>
+      </blockquote>
+    </div>
+  </div>
+
+</div>

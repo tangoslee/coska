@@ -13,8 +13,8 @@
 
       <div class="row main-body">
         <div class="col-md">
-          <ng-container [ngSwitch]="content.type">
-            <app-section *ngSwitchCase="'section'"></app-section>
+          <ng-container [ngSwitch]="content.layout">
+            <app-sections *ngSwitchCase="'section'"></app-sections>
             <app-contents *ngSwitchDefault></app-contents>
           </ng-container>
         </div>

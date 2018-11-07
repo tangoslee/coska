@@ -1,0 +1,21 @@
+<div class="post-container" *ngIf="posts">
+
+  <ul class="list-unstyled">
+
+    <li class="media" *ngFor="let post of posts">
+      <a class="post-link media" [routerLink]="[link, post.id]">
+        <img *ngIf="post?.coverImage" class="list-image mr-3 mt-3" src="{{post.coverImage}}" alt="Generic placeholder image">
+        <div class="media-body">
+          <h5 class="mt-0 mb-1 font-weight-bold">{{post.title}}</h5>
+          <div class="blockquote-footer">Published at <cite title="Source Title">{{post.publishedAt | date}}</cite></div>
+
+          {{post.desc | truncate:"140"}}
+
+        </div>
+      </a>
+    </li>
+
+  </ul>
+
+
+</div>

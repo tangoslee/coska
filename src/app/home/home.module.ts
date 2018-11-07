@@ -21,6 +21,9 @@ import {
 import { CoreModule } from '@app/core/core.module';
 import { SectionComponent } from './components/section/section.component';
 import { FileNotFoundComponent } from './components/file-not-found/file-not-found.component';
+import { ListComponent } from './components/sections/list/list.component';
+import { CardComponent } from './components/sections/card/card.component';
+import { SectionsComponent } from './components/sections/sections.component';
 
 @NgModule({
   imports: [CommonModule, CoreModule, HomeRoutingModule],
@@ -36,6 +39,9 @@ import { FileNotFoundComponent } from './components/file-not-found/file-not-foun
     XmlComponent,
     SectionComponent,
     FileNotFoundComponent,
+    SectionsComponent,
+    ListComponent,
+    CardComponent,
   ],
   exports: [
     BreadcrumbComponent,
@@ -49,6 +55,9 @@ import { FileNotFoundComponent } from './components/file-not-found/file-not-foun
     XmlComponent,
     SectionComponent,
     FileNotFoundComponent,
+    SectionsComponent,
+    ListComponent,
+    CardComponent,
   ],
   providers: [HomeService],
 })
