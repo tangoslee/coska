@@ -10,10 +10,9 @@ import { Location } from '@angular/common';
 @Component({
   selector: 'app-navibar',
   templateUrl: './navibar.component.html',
-  styleUrls: ['./navibar.component.css']
+  styleUrls: ['./navibar.component.css'],
 })
 export class NavibarComponent implements OnInit, OnDestroy {
-
   // show = false; // dropdown menu
   showNavi = false; // mobile navibar
   showDropDown = [];
@@ -30,7 +29,7 @@ export class NavibarComponent implements OnInit, OnDestroy {
     private store: Store<AppState>,
     private route: ActivatedRoute,
     private router: Router,
-    private location: Location,
+    private location: Location
   ) {
     this.getState = this.store.select(selectAppState);
     this.getStateSub = this.getState.subscribe(({ menus, uriMap }) => {
@@ -42,17 +41,16 @@ export class NavibarComponent implements OnInit, OnDestroy {
         // redirect to the 1st submenu;
         if (ppgid && !pgid) {
           const { subMenu } = uriMap[ppgid];
-          const [sub, ] = (subMenu)
+          const [sub] = subMenu
             ? subMenu.filter(menu => Object.prototype.hasOwnProperty.call(menu, 'pgid'))
-            : [, , ];
+            : [, ,];
           this.router.navigateByUrl(`${this.location.path()}/${sub.pgid}`);
         }
       });
     });
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   ngOnDestroy() {
     if (this.getStateSub) {
@@ -74,9 +72,14 @@ export class NavibarComponent implements OnInit, OnDestroy {
       this.showDropDown[i] = false;
     }
     this.showDropDown[i] = !this.showDropDown[i];
+    this.showDropDown = this.showDropDown.map((n, j) => (j === i ? this.showDropDown[i] : false));
   }
 
   toggleNavi() {
     this.showNavi = !this.showNavi;
+  }
+
+  onAreaOut(i: number) {
+    this.showDropDown[i] = false;
   }
 }

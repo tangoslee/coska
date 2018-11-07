@@ -3,6 +3,7 @@
 /* @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800|Nanum+Gothic:400,700|Sarina|Stylish|Sunflower:300|Noto+Sans+KR'); */
 
 /* @import url('//fonts.googleapis.com/earlyaccess/jejuhallasan.css'); */
+/* @import url('//fonts.googleapis.com/earlyaccess/jejugothic.css'); */
 
 
 * {
@@ -50,6 +51,7 @@ body {
 aside,
 .breadcrumb {
   font-family: 'Do Hyeon', sans-serif;
+  /* font-family: 'Jeju Gothic', serif; */
 }
 
 #navibar {
