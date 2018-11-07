@@ -11,7 +11,10 @@
     "e2e": "ng e2e",
     "build:tangos": "ng build --base-href=/coska/ --aot --prod",
     "deploy:tangos": "npx ngh --dir=dist --repo=git@github.com:tangoslee/coska.git --no-silent",
-    "cli:fake": "ts-node ./tools/bin/cli.ts cmd fake output ./src/assets/section/m03/m030103 n "
+    "cli:imagestore": "ts-node ./tools/bin/cli.ts cmd imagestore path ",
+    "cli:refresh": "ts-node ./tools/bin/cli.ts cmd refresh",
+    "cli:fake": "ts-node ./tools/bin/cli.ts cmd fake output ./src/assets/section/m03/m030103 n ",
+    "cli:post": "ts-node ./tools/bin/cli.ts cmd post path "
   },
   "private": true,
   "dependencies": {

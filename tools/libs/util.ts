@@ -3,7 +3,6 @@ import * as path from 'path';
 import * as sharp from 'sharp';
 
 export class Util {
-
   getAppRoot() {
     return path.basename(`${__dirname}/../../`);
   }
@@ -21,12 +20,10 @@ export class Util {
   }
 
   mkdir(path, recursive = false, mode = 0o777) {
-
     const options = { recursive, mode };
 
     return new Promise((resolve, reject) => {
-
-      fs.mkdir(path, (err) => {
+      fs.mkdir(path, err => {
         if (err) {
           const { code } = err;
           if (code === 'EEXIST') return resolve(path);
@@ -34,7 +31,6 @@ export class Util {
         }
         return resolve(path);
       });
-
     });
   }
 
@@ -43,17 +39,55 @@ export class Util {
       if (fs.existsSync(target)) {
         fs.unlinkSync(target);
       }
-      fs.link(src, target, (err) => {
+      fs.link(src, target, err => {
         if (err) return reject(err);
         return resolve(target);
       });
     });
   }
 
-  writeFile(path, body) {
+  /**
+   * Parse input path into name and ext
+   * @param path
+   * @param includeDot
+   *
+   * @return { name, ext }
+   * e.g)  path = foo.bar
+   *
+   * { name: 'foo', ext: '.bar' }   // includeDot true
+   * { name: 'foo', ext: 'bar' }    // includeDot false
+   */
+  parseFileName(path, includeDot = false) {
+    const pattern = includeDot ? /(.*)(\.[^\.]+$)/ : /(.*)\.([^\.]+$)/;
+    const [, name, ext] = path.match(pattern);
+    return { name, ext };
+  }
+
+  /**
+   * If the path is already exists, find another path until it is available.
+   * @param path
+   */
+  findAvailablePath(path) {
+    if (fs.existsSync(path)) {
+      const { name, ext } = this.parseFileName(path, true);
+      if (isNaN(name.substr(-1))) {
+        return this.findAvailablePath(`${name}.1${ext}`);
+      }
+      // plus 1
+      const surfix: Number = Number(name.substr(-1)) + 1;
+      return this.findAvailablePath(`${name.substr(0, name.length - 1)}${surfix}${ext}`);
+    }
+    return path;
+  }
+
+  writeFile(path, body, options: any = {}) {
+    const { overwrite } = options;
+    if (!overwrite) {
+      path = this.findAvailablePath(path);
+    }
     // console.log(`write to ${path}`);
     return new Promise((resolve, reject) => {
-      fs.writeFile(path, body, (err) => {
+      fs.writeFile(path, body, err => {
         if (err) return reject(err);
         return resolve(path);
       });
@@ -68,10 +102,9 @@ export class Util {
     return JSON.parse(raw.toString());
   }
 
-  saveJSON(output: string, data: any = {}) {
+  saveJSON(output: string, data: any = {}, options: any = {}) {
     const json = JSON.stringify(data);
-    this.writeFile(output, json)
-      .catch(err => console.error(err));
+    this.writeFile(output, json, options).catch(err => console.error(err));
   }
 
   // convert process.argv to a key:value pairs.
@@ -102,46 +135,44 @@ export class Util {
     });
   }
 
-
-  thumbs(path: string, width: number, height: number) {
-
-    console.log({ path });
-    const defaultResolution = `_${width}x0`;
+  thumbs(path: string, width: number, height: number, retry: number = 3) {
+    const resizes = [];
+    const loadings = ['-', '\\', '|', '/'];
 
     fs.readdir(path, (err, items) => {
-      console.log({ items });
-
       items
+        // check path is directory or file
         .filter(item => {
           if (this.isdir(`${path}/${item}`)) {
             this.thumbs(`${path}/${item}`, width, height);
             return false;
           }
-          return item.match(/\.(jpeg|png|gif|jpg)$/i)
+          return item.match(/\.(jpeg|png|gif|jpg)$/i);
         })
+        // filter origin files
         .filter(item => !item.match(`_${width}x`))
-        .map(item => {
-          const [ext, remains] = item.match(/\.[a-zA-Z0-9]{3,4}$/);
-          const img = item.replace(ext, `${defaultResolution}${ext}`);  // xxxx_300x0.jpeg
+        .map((item, i) => {
+          const { name, ext } = this.parseFileName(item, false);
+          const img = `${name}_${width}x${height}.${ext}`; // xxxx_300x0.jpeg
+
           const src = `${path}/${item}`;
+          const output = `${path}/${img}`;
 
-          // console.log({ newpath: `${path}/${item}` });
-
-          const output1 = `${path}/${img}`;
-          const output2 = output1.replace(defaultResolution, `_${width}x${height}`);
-          const output3 = output1.replace(defaultResolution, `_800x0`);
-
-          // console.log({ output1, output2 });
-          // const resize1 = this.resize(src, width, 0, output1);
-          const resize2 = this.resize(src, width, height, output2);
-          const resize3 = this.resize(src, 800, 0, output3);
-
-          Promise.all([resize2, resize3])
-            .then(data => {
-              data.map(({size}) => console.log(`resize done: ${size} bytes`));
+          this.resize(src, width, height, output)
+            .then(() => {
+              // process.stdout.write('\x1Bc');
+              process.stdout.write(`${loadings[i % 4]}${String.fromCharCode(13)}`);
+            })
+            .catch(error => {
+              if (retry > 0) {
+                console.log('Error Retry: ', retry, ', path:', path);
+                setTimeout(() => {
+                  this.thumbs(path, width, height, retry -1);
+                }, 3000);
+              }
+              process.stderr.write(`ResizeError: ${src}`, error)
             });
         });
     });
-
   }
 }

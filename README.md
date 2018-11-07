@@ -26,35 +26,7 @@ This version is a draft.
 ├── app.component.ts
 ├── app.module.ts
 ├── app-routing.module.ts
-├── core
-│   ├── components
-│   │   ├── alerts
-│   │   ├── index.ts
-│   │   ├── loading
-│   │   ├── pagination
-│   │   └── undermaintenance
-│   ├── core.module.ts
-│   ├── intercepters
-│   │   ├── http-token-interceptor.ts
-│   │   └── index.ts
-│   ├── models
-│   │   ├── doc-meta.ts
-│   │   ├── index.ts
-│   │   ├── maintenance.ts
-│   │   ├── meetup.ts
-│   │   └── menu.ts
-│   ├── pipes
-│   │   ├── index.ts
-│   │   ├── safe-html.pipe.spec.ts                // sanitize undafe HTML
-│   │   ├── safe-html.pipe.ts
-│   │   ├── truncate.pipe.spec.ts                 // trucate string
-│   │   └── truncate.pipe.ts
-│   └── services
-│       ├── api.service.spec.ts
-│       ├── api.service.ts
-│       ├── app.service.spec.ts
-│       ├── app.service.ts
-│       └── index.ts
+├── core                                            // core module
 ├── home
 │   ├── components
 │   │   ├── breadcrumb                            // breadcrumb
@@ -132,4 +104,5 @@ assets/
 | Method | URL                      | Desc                                                                                                                                       |
 | ------ | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
 | GET    | /home/:menuId/:subMenuId | Display a single content when the subMenu.type in (html, markdown, xml) <br/> Display the contents list when the subMenu.type in (section) |
-| GET    | /posts/:postId            | Display a post by postId |
+| GET    | /home/:menuId/:subMenuId/:postId            | Display a post by postId |
+

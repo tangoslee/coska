@@ -1,3 +1,3 @@
 export * from './image-store';
 export * from './util';
-export * from './fake-post';
+export * from '../models/fake-post';

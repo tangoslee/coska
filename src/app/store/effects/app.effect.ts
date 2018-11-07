@@ -20,6 +20,7 @@ import {
   GetSectionFailure
 } from '../actions/app.action';
 import { HomeService } from '@app/home/services';
+import { AppService } from '@app/core/services';
 
 @Injectable()
 export class AppEffects {
@@ -115,7 +116,9 @@ export class AppEffects {
         const { id, type } = action.payload;
         return this.homeService.getSection(`${type}/${id}`)
           .pipe(
-            map(section => new GetSectionSuccess(section)),
+            map(section => {
+              return new GetSectionSuccess(section);
+            }),
             catchError(error => Observable.of(new GetSectionFailure(error)))
           );
       })
