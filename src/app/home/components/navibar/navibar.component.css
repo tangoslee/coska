@@ -9,3 +9,7 @@ a:disabled {
 nav {
     border-bottom: solid 5px #000;
 }
+
+.dropdown-menu {
+  margin-top: -0.3rem;
+}
