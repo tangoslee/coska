@@ -23,11 +23,7 @@ import { SectionComponent } from './components/section/section.component';
 import { FileNotFoundComponent } from './components/file-not-found/file-not-found.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    CoreModule,
-    HomeRoutingModule,
-  ],
+  imports: [CommonModule, CoreModule, HomeRoutingModule],
   declarations: [
     MainComponent,
     NavibarComponent,
@@ -54,8 +50,6 @@ import { FileNotFoundComponent } from './components/file-not-found/file-not-foun
     SectionComponent,
     FileNotFoundComponent,
   ],
-  providers: [
-    HomeService,
-  ]
+  providers: [HomeService],
 })
-export class HomeModule { }
+export class HomeModule {}

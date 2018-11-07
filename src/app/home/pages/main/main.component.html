@@ -15,7 +15,7 @@
         <div class="col-md">
           <ng-container [ngSwitch]="content.type">
             <app-section *ngSwitchCase="'section'"></app-section>
-            <app-contents *ngSwitchDefault [content]="content"></app-contents>
+            <app-contents *ngSwitchDefault></app-contents>
           </ng-container>
         </div>
       </div>
