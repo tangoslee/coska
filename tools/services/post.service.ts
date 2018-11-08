@@ -9,6 +9,7 @@ export class PostService {
 
   createFakePosts(n: number = 100, output: string = null): Observable<any> {
     const writes = [];
+    this.util.mkdir(output);
     for (let i = 0; i < n; i++) {
       const post = new FakePost(output);
       const result = this.util.writeFile(`${output}/${post.id}.md`, post.toString());
