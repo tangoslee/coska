@@ -12,3 +12,30 @@ li.media {
   border-bottom: 1px solid #e9e9e9;
   padding-bottom: 1rem;
 }
+
+.media-text {
+  word-wrap: break-word;
+}
+
+@media (min-width: 300px) {
+  .post-link {
+    display: inline-block;
+    width: 100%;
+  }
+
+  .post-link img {
+    max-width: 280px;
+  }
+}
+
+@media (min-width: 992px) {
+  .post-link {
+    display: flex;
+    width: 100%;
+  }
+
+  .post-link img {
+    max-width: 120px;
+    max-height: 360px;
+  }
+}

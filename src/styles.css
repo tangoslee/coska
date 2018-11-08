@@ -47,6 +47,14 @@ body {
   content: 'Coska';
 }
 
+.logo img {
+  background-color: #f8f9fa;
+  max-width: 150px !important;
+ /* width: 269px;
+  height: 123px; */
+  opacity: 1;
+}
+
 #navibar,
 aside,
 .breadcrumb {
@@ -56,6 +64,7 @@ aside,
 
 #navibar {
   font-size: 1.2rem;
+  background-color: #fff;
 }
 
 aside {
