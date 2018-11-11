@@ -37,7 +37,7 @@ export class DocService {
             .replace(/<[^>]+>/g, '')
             .replace(/\s+/, ' ')
             .substring(0, 400);
-            // TODO: Add coverImage
+        // TODO: Add coverImage
       });
 
       return doc;
@@ -45,6 +45,29 @@ export class DocService {
       console.error({ e });
       return '';
     }
+  }
+
+  // @return { desc, coverImage }
+  parseHTML(html: string) {
+    let doc = {};
+    const desc = XmlEntities.decode(html)
+      .replace(/(&[0-9a-z]+;)/ig, (match, capture) => {
+        return AllHtmlEntities.decode(capture).trim();
+      })
+      .replace(/<[^>]+>/g, '')
+      .replace(/\s+/, ' ')
+      .substring(0, 400);
+
+    if (!!desc) {
+      doc = { ...doc, desc };
+    }
+
+    const [, coverImage] = html.match(/<img [^>]*src="(.*?)"[^>]*>/i) || [null, null];
+
+    if (!!coverImage) {
+      doc = { ...doc, coverImage };
+    }
+    return doc;
   }
 
 }

@@ -13,6 +13,7 @@ export const enum CommandsTypes {
   ADD_POST,
   INIT_THUMBS,
   INIT_INDEX,
+  INTI_INDEX_THUMBS,
   ADD_FAKE_POST,
 }
 
@@ -46,8 +47,8 @@ export class MenuService {
     }, {});
   }
 
-  inquiryCommand(): Promise<any> {
-    return prompt([
+  async inquiryCommand(): Promise<any> {
+    const data = await prompt([
       {
         type: 'list',
         name: 'cmd',
@@ -62,11 +63,20 @@ export class MenuService {
         ],
       },
     ]);
+
+    const { cmd } = data;
+    if (cmd === CommandsTypes.EXIT) {
+      process.exit();
+    }
+
+    return new Promise((resolve, reject) => {
+      resolve(data);
+    });
   }
 
-  inquiryMainMenu(): Promise<any> {
-    const { menus } = this.state;
-    const mainOpts = menus
+  inquiryMainMenu(menus: any): Promise<any> {
+
+    const questions = menus
       .map(({ title, pgid }) => {
         return { name: title, value: pgid };
       });
@@ -76,7 +86,7 @@ export class MenuService {
         type: 'list',
         name: 'ppgid',
         choices: [
-          ...mainOpts,
+          ...questions,
           this.separator,
           { name: 'Back', value: CommandsTypes.GO_BACK }
         ],
@@ -85,22 +95,11 @@ export class MenuService {
     ]);
   }
 
-  inquirySubMenu(ppgid: string): Promise<any> {
-    const subMenu = this.pgidMap[ppgid];
-    const subOpts = subMenu
-      .filter(({ layout }) => layout !== 'header' && layout !== 'divider')
-      .map(({ layout, title, pgid }, i) => {
-        switch (layout) {
-          // case 'divider': {
-          //   return this.separator;
-          // }
-          // case 'header': {
-          //   return { name: title };
-          // }
-          default: {
-            return { name: `${i + 1}.${title}`, value: pgid };
-          }
-        }
+  inquirySubMenu(menus: any): Promise<any> {
+
+    const questions = menus
+      .map(({ title, pgid }, i) => {
+        return { name: `${i + 1}.${title}`, value: pgid };
       });
 
     return prompt([
@@ -108,7 +107,7 @@ export class MenuService {
         type: 'list',
         name: 'pgid',
         choices: [
-          ...subOpts,
+          ...questions,
           this.separator,
           { name: 'Back', value: CommandsTypes.GO_BACK }
         ],
@@ -133,4 +132,81 @@ export class MenuService {
       }
     ]);
   }
+
+
+  // Command
+  inquirySectionMarkDown(): Promise<any> {
+    const layout = 'section';
+    const doctype = 'markdown';
+    const { menus } = this.state;
+
+    const subMenuMap = {};
+    const mainMenus = menus
+      .filter(menu => {
+        const { subMenu } = menu;
+        if (!subMenu) return false;
+        subMenuMap[menu.pgid] = subMenu
+          .filter(menu => {
+            // console.log({ layout, doctype });
+            return menu.layout === layout && menu.doctype === doctype;
+          });
+
+        return subMenuMap[menu.pgid].length > 0 ? true : false;
+      });
+
+    return new Promise(async (resolve, reject) => {
+
+      // console.log({ mainMenus, subMenuMap });
+      while (true) {
+        const mainAnswers = await this.inquiryMainMenu(mainMenus);
+        const { ppgid } = mainAnswers;
+        if (ppgid === CommandsTypes.GO_BACK) {
+          return resolve({ layout, ppgid, pgid: null });
+        }
+
+        const subAnswers = await this.inquirySubMenu(subMenuMap[ppgid]);
+        const { pgid } = subAnswers;
+        if (pgid !== CommandsTypes.GO_BACK) {
+          return resolve({ layout, ppgid, pgid });
+        }
+      }
+    });
+  }
+
+  inquirySection(): Promise<any> {
+    const layout = 'section';
+    const { menus } = this.state;
+
+    const subMenuMap = {};
+    const mainMenus = menus
+      .filter(menu => {
+        const { subMenu } = menu;
+        if (!subMenu) return false;
+        subMenuMap[menu.pgid] = subMenu
+          .filter(menu => {
+            return menu.layout === layout;
+          });
+
+        return subMenuMap[menu.pgid].length > 0 ? true : false;
+      });
+
+    return new Promise(async (resolve, reject) => {
+
+      // console.log({ mainMenus, subMenuMap });
+      while (true) {
+        const mainAnswers = await this.inquiryMainMenu(mainMenus);
+        const { ppgid } = mainAnswers;
+        if (ppgid === CommandsTypes.GO_BACK) {
+          return resolve({ layout, ppgid, pgid: null });
+        }
+
+        const subAnswers = await this.inquirySubMenu(subMenuMap[ppgid]);
+        const { pgid } = subAnswers;
+        if (pgid !== CommandsTypes.GO_BACK) {
+          return resolve({ layout, ppgid, pgid });
+        }
+      }
+    });
+  }
+
 }

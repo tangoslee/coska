@@ -11,6 +11,7 @@
     "e2e": "ng e2e",
     "build:tangos": "ng build --base-href=/coska/ --aot --prod",
     "deploy:tangos": "npx ngh --dir=dist --repo=git@github.com:tangoslee/coska.git --no-silent",
+    "cli:imagestore": "ts-node ./tools/bin/app.ts cmd imagestore path ",
     "cli": "ts-node ./tools/bin/app.ts"
   },
   "private": true,

@@ -28,6 +28,11 @@ export class PostService {
 
   createPostSkelton({ ppgid, pgid, layout }): Promise<any> {
 
+    if (!ppgid || !pgid || !layout) {
+      console.error('Invalid Parameter:');
+      return;
+    }
+
     const { assets } = this.state;
     const postId = uniqid();
     const fullPath = `${assets}/${layout}/${ppgid}/${pgid}/${postId}`;

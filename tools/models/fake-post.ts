@@ -4,11 +4,16 @@ import * as path from 'path';
 
 import { Post } from '../../src/app/core/models';
 import { Util } from '../libs/util';
+import { ImageService } from '../services/image.service';
 
 export class FakePost extends Post {
   imageOutput: string;
 
-  constructor(private output: string = null, private util: Util = new Util()) {
+  constructor(
+    private output: string = null,
+    private util: Util = new Util(),
+    private imageService: ImageService = new ImageService(),
+  ) {
     super({ id: uniqid() });
 
     this.imageOutput = `${output}/${this.id}`;
@@ -23,24 +28,26 @@ export class FakePost extends Post {
   }
 
   getRandomImage(): string {
-    const { storePath, images } = this.util.loadJSON(`${__dirname}/../libs/image-store.json`);
+    const { storePath, images } = this.util.loadJSON(
+      `${__dirname}/../libs/image-store.json`,
+    );
     const size = images.length;
     const i = this.rand(10000);
     const image = images[i % size];
     const target = `${this.imageOutput}/${image}`;
 
     // copy file
-    this.util.mkdir(this.imageOutput, true).then(() => {
-      // this.util.link(`${storePath}/${image}`, target)
-      this.util
-        .resize(`${storePath}/${image}`, 800, 0, target)
-        .then(data => {
-          // process.stdout.write('\x1Bc');
-          // process.stdout.write(`Origin image generated: ${target}${String.fromCharCode(13)}`);
-          // console.log(`Origin image generated: ${target}${String.fromCharCode(13)}`);
-        })
-        .catch(err => console.error(err));
-    });
+    this.util.mkdir(this.imageOutput, true);
+
+    // this.util.link(`${storePath}/${image}`, target)
+    this.imageService
+      .resize(`${storePath}/${image}`, 800, 0, target)
+      .then(data => {
+        // process.stdout.write('\x1Bc');
+        // process.stdout.write(`Origin image generated: ${target}${String.fromCharCode(13)}`);
+        // console.log(`Origin image generated: ${target}${String.fromCharCode(13)}`);
+      })
+      .catch(err => console.error(err));
 
     // replace .src/assets => /assets
     return `${path.dirname(target).replace(/\S+\/assets/, 'assets')}/${image}`;
