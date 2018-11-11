@@ -5,8 +5,8 @@ import { StoreModule } from '@ngrx/store';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { CoreModule } from './core/core.module';
-import { HomeModule } from './home/home.module';
+import { CoreModule } from '@app/core/core.module';
+import { HomeModule } from '@app/home/home.module';
 
 import { reducers, effects } from './store/app.states';
 import { EffectsModule } from '@ngrx/effects';

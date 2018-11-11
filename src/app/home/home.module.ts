@@ -19,7 +19,6 @@ import {
   XmlComponent,
 } from './components/contents';
 import { CoreModule } from '@app/core/core.module';
-import { SectionComponent } from './components/section/section.component';
 import { FileNotFoundComponent } from './components/file-not-found/file-not-found.component';
 import { ListComponent } from './components/sections/list/list.component';
 import { CardComponent } from './components/sections/card/card.component';
@@ -37,7 +36,6 @@ import { SectionsComponent } from './components/sections/sections.component';
     HtmlComponent,
     MarkdownComponent,
     XmlComponent,
-    SectionComponent,
     FileNotFoundComponent,
     SectionsComponent,
     ListComponent,
@@ -53,7 +51,6 @@ import { SectionsComponent } from './components/sections/sections.component';
     HtmlComponent,
     MarkdownComponent,
     XmlComponent,
-    SectionComponent,
     FileNotFoundComponent,
     SectionsComponent,
     ListComponent,

@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 
 import { Util } from '../libs';
-import { TangosCli } from '../libs/tangos-cli';
+import { AppCli } from '../libs/app-cli';
 
 
 const util = new Util();
 const options = util.getOptions();
 
-const tangosCli = new TangosCli(options);
-tangosCli.run();
+const appCli = new AppCli(options);
+appCli.run();

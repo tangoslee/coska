@@ -11,5 +11,6 @@ nav {
 }
 
 .dropdown-menu {
-  margin-top: -0.3rem;
+  margin-top: -0.8rem;
+  z-index: -10;
 }

@@ -11,10 +11,7 @@
     "e2e": "ng e2e",
     "build:tangos": "ng build --base-href=/coska/ --aot --prod",
     "deploy:tangos": "npx ngh --dir=dist --repo=git@github.com:tangoslee/coska.git --no-silent",
-    "cli:imagestore": "ts-node ./tools/bin/cli.ts cmd imagestore path ",
-    "cli:refresh": "ts-node ./tools/bin/cli.ts cmd refresh",
-    "cli:fake": "ts-node ./tools/bin/cli.ts cmd fake output ./src/assets/section/m03/m030103 n ",
-    "cli:post": "ts-node ./tools/bin/cli.ts cmd post path "
+    "cli": "ts-node ./tools/bin/app.ts"
   },
   "private": true,
   "dependencies": {
@@ -30,9 +27,12 @@
     "@ngrx/effects": "^5.2.0",
     "@ngrx/store": "^5.2.0",
     "bootstrap": "^4.1.3",
+    "clui": "^0.3.6",
     "core-js": "^2.4.1",
+    "figlet": "^1.2.1",
     "font-awesome": "^4.7.0",
     "html-entities": "^1.2.1",
+    "inquirer": "^6.2.0",
     "jekyll-markdown-parser": "^1.1.1",
     "prismjs": "^1.15.0",
     "rxjs": "^5.5.2",
@@ -50,6 +50,7 @@
     "faker": "^4.1.0",
     "jasmine-core": "~2.6.2",
     "jasmine-spec-reporter": "~4.1.0",
+    "jsdom": "^13.0.0",
     "karma": "^3.0.0",
     "karma-chrome-launcher": "~2.1.1",
     "karma-cli": "~1.0.1",

@@ -79,6 +79,10 @@ export class NavibarComponent implements OnInit, OnDestroy {
     this.showNavi = !this.showNavi;
   }
 
+  onAreaIn(i: number) {
+    this.showDropDown[i] = true;
+  }
+
   onAreaOut(i: number) {
     this.showDropDown[i] = false;
   }

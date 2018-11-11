@@ -68,8 +68,8 @@ export class AppEffects {
     .pipe(
       ofType(AppActionTypes.GET_DOC_HTML),
       switchMap((action: GetDocHTML) => {
-        const { id, layout } = action.payload;
-        return this.homeService.getHTML(id)
+        const { id, layout, path } = action.payload;
+        return this.homeService.getHTML(path)
           .pipe(
             map(data => new GetContentSuccess({...data, layout})),
             catchError(error => Observable.of(new GetContentFailure(error)))
@@ -82,8 +82,8 @@ export class AppEffects {
     .pipe(
       ofType(AppActionTypes.GET_DOC_MARKDOWN),
       switchMap((action: GetDocMarkdown) => {
-        const { id, layout } = action.payload;
-        return this.homeService.getMarkDown(id)
+        const { id, layout, path } = action.payload;
+        return this.homeService.getMarkDown(path)
           .pipe(
             map(data => new GetContentSuccess({...data, layout})),
             catchError(error => Observable.of(new GetContentFailure(error)))
@@ -96,8 +96,8 @@ export class AppEffects {
     .pipe(
       ofType(AppActionTypes.GET_DOC_XML),
       switchMap((action: GetDocXML) => {
-        const { id, layout } = action.payload;
-        return this.homeService.getXML(id)
+        const { id, layout, path } = action.payload;
+        return this.homeService.getXML(path)
           .pipe(
             map(data => new GetContentSuccess({...data, layout})),
             catchError(error => {

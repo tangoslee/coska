@@ -10,10 +10,11 @@ import { Content } from '@app/core/models';
 import { Section } from '@app/core/models/section';
 
 import * as htmlEntities from 'html-entities';
+import { SectionsComponent } from '../components/sections/sections.component';
 
 @Injectable()
 export class HomeService {
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService) { }
 
   init(): Observable<any> {
     return this.apiService.get(`${environment.API_URL}/assets/api/init.json`);
@@ -89,41 +90,20 @@ export class HomeService {
       .join('/');
 
     // check section or pages
-    const isSection = path.match(/^\/section\//);
+    const isSection = !!path.match(/^section/ig);
 
     const xslFile = isSection
       ? `${environment.API_URL}/assets/${basedir}/index.xsl`
       : `${environment.API_URL}/assets/${path}.xsl`;
 
     const xslRequest = this.apiService.get(xslFile, {}, options);
-    const xmlRequest = this.apiService.get(
-      `${environment.API_URL}/assets/${path}.xml`,
-      {},
-      options
-    );
+    const xmlRequest = this.apiService.get(`${environment.API_URL}/assets/${path}.xml`, {}, options);
 
     return forkJoin([xslRequest, xmlRequest]).pipe(
       map(([xslResponse, xmlResponse]) => {
         try {
-          const parser = new DOMParser();
-          const xsl = parser.parseFromString(xslResponse, 'application/xml');
-          const xml = parser.parseFromString(xmlResponse, 'application/xml');
-
-          // FIXME: IE doesn't support XSLTProcessor
-          const xslt = new XSLTProcessor();
-          xslt.importStylesheet(xsl);
-
-          let dom = xslt.transformToFragment(xml, document);
-
-          // decode HTML Entity for archive XML
-          if (isSection) {
-            dom = this.decodeEntityInnerHTML(dom, 'h1.display-8');
-            dom = this.decodeEntityInnerHTML(dom, 'div.media.item-body');
-          }
-
-          const html = new XMLSerializer().serializeToString(dom);
+          const html = this.transformXML(xslResponse, xmlResponse, isSection);
           // console.log({ html });
-
           return { doctype: 'xml', id: path, body: html, meta: null };
         } catch (e) {
           console.error(e);
@@ -133,15 +113,62 @@ export class HomeService {
     );
   }
 
-  decodeEntityInnerHTML(dom, tag) {
+  transformXML(xslResponse, xmlResponse, isSection = false) {
+    try {
+      const parser = new DOMParser();
+      const xsl = parser.parseFromString(xslResponse, 'application/xml');
+      const xml = parser.parseFromString(xmlResponse, 'application/xml');
+
+      // FIXME: IE doesn't support XSLTProcessor
+      const xslt = new XSLTProcessor();
+      xslt.importStylesheet(xsl);
+
+      let dom = xslt.transformToFragment(xml, document);
+
+      // decode HTML Entity for archive XML
+      if (isSection) {
+        dom = this.afterHTMLFilter(dom, '.cms-title');
+        dom = this.afterHTMLFilter(dom, '.cms-desc');
+      }
+
+      const html = new XMLSerializer().serializeToString(dom);
+      // console.log({ html });
+      return html;
+    } catch (e) {
+      return '';
+    }
+  }
+
+  afterHTMLFilter(dom, tag) {
+
+    const decode = (str) => {
+      return str.replace(/(&[0-9a-zA-Z]+;)/g, (match, capture) => {
+        return entity.decode(capture);
+      });
+    }
     const entity = htmlEntities.XmlEntities;
-    const before = dom.querySelector(tag).innerHTML;
-    // console.log('before: ', before);
-    const after = before.replace(/(&[0-9a-zA-Z]+;)/g, (match, capture) => {
-      return entity.decode(capture);
-    });
-    // console.log('after: ', after);
-    dom.querySelector(tag).innerHTML = after;
+    const el = dom.querySelector(tag);
+
+    switch (el.tagName) {
+      case 'meta': {
+        const before = el.getAttribute('content');
+        let after = decode(before);
+        if (el.getAttribute('property') === 'cms:desc') {
+          after = after.replace(/(&[0-9a-z]+;|<.*?>)/ig, ' ').replace(/\s+/g, ' ');
+          // console.log({ prop: after });
+        }
+        el.setAttribute('content', after);
+        // console.log({ before, after });
+        break;
+      }
+      default: {
+        const before = el.innerHTML;
+        const after = decode(before);
+        el.innerHTML = after;
+        // console.log({ before, after });
+        break;
+      }
+    }
     return dom;
   }
 

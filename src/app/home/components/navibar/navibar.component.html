@@ -9,13 +9,15 @@
     <ul class="navbar-nav ml-auto">
 
       <!-- // Mobile Menu -->
-      <li class="nav-item dropdown d-block" *ngFor="let menu of menus; let i = index;" (mouseleave)="onAreaOut(i)">
+      <li class="nav-item dropdown d-block" *ngFor="let menu of menus; let i = index;"
+      (mouseenter)="onAreaIn(i)"
+      (mouseleave)="onAreaOut(i)">
         <a *ngIf="menu.layout && menu.layout === 'extlink'" class="nav-link" href="{{menu.url}}" target="_blank">{{menu.title}}</a>
         <a *ngIf="menu.pgid" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" (mouseover)="toggleDropDown(i)"
           aria-haspopup="true" aria-expanded="false">
           {{menu.title}}
         </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown" [ngClass]="{ show: showDropDown[i] }">
+        <div *ngIf="menu.subMenu" class="dropdown-menu" aria-labelledby="navbarDropdown" [ngClass]="{ show: showDropDown[i] }">
           <ng-container *ngFor="let sub of menu.subMenu">
             <ng-container [ngSwitch]="sub.layout">
               <h6  *ngSwitchCase="'header'" class="dropdown-header">{{sub.title}}</h6>

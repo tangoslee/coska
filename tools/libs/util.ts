@@ -1,45 +1,54 @@
-import * as fs from 'fs';
-import * as path from 'path';
+import {
+  readFileSync,
+  mkdirSync,
+  existsSync,
+  unlinkSync,
+  link,
+  writeFile,
+  readdirSync,
+  statSync
+} from 'fs';
+import { dirname, basename } from 'path';
 import * as sharp from 'sharp';
+// import * as readline from 'readline';
+
 
 export class Util {
   getAppRoot() {
-    return path.basename(`${__dirname}/../../`);
+    return basename(`${__dirname}/../../`);
   }
 
   cwd() {
-    return path.basename(process.cwd());
+    return basename(process.cwd());
   }
 
   isdir(path) {
     try {
-      return fs.statSync(path).isDirectory();
+      return statSync(path).isDirectory();
     } catch (e) {
       return false;
     }
   }
 
   mkdir(path, recursive = false, mode = 0o777) {
-    const options = { recursive, mode };
+    try {
+      return mkdirSync(path, mode);
+    } catch (e) { }
+    if (!recursive) return false;
 
-    return new Promise((resolve, reject) => {
-      fs.mkdir(path, err => {
-        if (err) {
-          const { code } = err;
-          if (code === 'EEXIST') return resolve(path);
-          return reject(err);
-        }
-        return resolve(path);
-      });
-    });
+    if (!this.isdir(path)) {
+      this.mkdir(dirname(path), recursive);
+      return this.mkdir(path);
+    }
+    return false;
   }
 
   link(src, target) {
     return new Promise((resolve, reject) => {
-      if (fs.existsSync(target)) {
-        fs.unlinkSync(target);
+      if (existsSync(target)) {
+        unlinkSync(target);
       }
-      fs.link(src, target, err => {
+      link(src, target, err => {
         if (err) return reject(err);
         return resolve(target);
       });
@@ -68,7 +77,7 @@ export class Util {
    * @param path
    */
   findAvailablePath(path) {
-    if (fs.existsSync(path)) {
+    if (existsSync(path)) {
       const { name, ext } = this.parseFileName(path, true);
       if (isNaN(name.substr(-1))) {
         return this.findAvailablePath(`${name}.1${ext}`);
@@ -87,7 +96,7 @@ export class Util {
     }
     // console.log(`write to ${path}`);
     return new Promise((resolve, reject) => {
-      fs.writeFile(path, body, err => {
+      writeFile(path, body, err => {
         if (err) return reject(err);
         return resolve(path);
       });
@@ -95,10 +104,10 @@ export class Util {
   }
 
   loadJSON(path: string) {
-    if (!fs.existsSync(path)) {
+    if (!existsSync(path)) {
       return {};
     }
-    const raw = fs.readFileSync(path);
+    const raw = readFileSync(path);
     return JSON.parse(raw.toString());
   }
 
@@ -139,40 +148,52 @@ export class Util {
     const resizes = [];
     const loadings = ['-', '\\', '|', '/'];
 
-    fs.readdir(path, (err, items) => {
-      items
+    if (retry === 0) {
+      console.error('no more try');
+      return false;
+    }
+
+    const items = readdirSync(path);
+
+    items
+      .filter(item => {
         // check path is directory or file
-        .filter(item => {
-          if (this.isdir(`${path}/${item}`)) {
-            this.thumbs(`${path}/${item}`, width, height);
-            return false;
-          }
-          return item.match(/\.(jpeg|png|gif|jpg)$/i);
-        })
-        // filter origin files
-        .filter(item => !item.match(`_${width}x`))
-        .map((item, i) => {
-          const { name, ext } = this.parseFileName(item, false);
-          const img = `${name}_${width}x${height}.${ext}`; // xxxx_300x0.jpeg
+        if (this.isdir(`${path}/${item}`)) {
+          this.thumbs(`${path}/${item}`, width, height);
+          return false;
+        }
+        return item.match(/\.(jpeg|png|gif|jpg)$/i);
+      })
+      // filter origin files
+      .filter(item => !item.match(`_${width}x`))
+      .map((item, i, _items) => {
+        const { name, ext } = this.parseFileName(item, false);
+        const img = `${name}_${width}x${height}.${ext}`; // xxxx_300x0.jpeg
 
-          const src = `${path}/${item}`;
-          const output = `${path}/${img}`;
+        const src = `${path}/${item}`;
+        const output = `${path}/${img}`;
 
-          this.resize(src, width, height, output)
-            .then(() => {
-              // process.stdout.write('\x1Bc');
-              process.stdout.write(`${loadings[i % 4]}${String.fromCharCode(13)}`);
-            })
-            .catch(error => {
-              if (retry > 0) {
-                console.log('Error Retry: ', retry, ', path:', path);
-                setTimeout(() => {
-                  this.thumbs(path, width, height, retry -1);
-                }, 3000);
-              }
-              process.stderr.write(`ResizeError: ${src}`, error)
-            });
-        });
-    });
+        this.resize(src, width, height, output)
+          .then(() => {
+            // readline.cursorTo(process.stdout, 0);
+            // readline.clearLine(process.stdout, 1);
+            process.stdout.write(`${loadings[i % 4]} ${output}${String.fromCharCode(13)}`);
+            // process.stdout.write(`${loadings[i % 4]}${String.fromCharCode(13)}`);
+            if (i === _items.length - 1) {
+              // readline.clearLine(process.stdout, 0);
+              // readline.cursorTo(process.stdout, 0);
+            }
+          })
+          .catch(error => {
+            if (retry > 0) {
+              console.log('Error Retry: ', retry, ', path:', path);
+              setTimeout(() => {
+                this.thumbs(path, width, height, retry - 1);
+              }, 3000);
+            }
+            process.stderr.write(`ResizeError: ${src}${String.fromCharCode(13)}`);
+            // readline.cursorTo(process.stdout, 0);
+          });
+      });
   }
 }

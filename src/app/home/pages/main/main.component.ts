@@ -39,24 +39,33 @@ export class MainComponent implements OnInit, OnDestroy {
       // console.log({ id, hit: this.uriMap[id] });
       if (postid) {
         const { layout, doctype } = this.uriMap[id];
+        const path = `section/${ppgid}/${pgid}/${postid}`;
         // console.log('getpost:', postid, {layout, doctype});
         this.store.dispatch(
-          new GetContent({ ...content, id: `/section/${ppgid}/${pgid}/${postid}`, layout: 'page', doctype })
+          new GetContent({
+            ...content,
+            path,
+            doctype,
+            layout: 'page',
+            id: `${ppgid}/${pgid}/${postid}`,
+          })
         );
       } else if (this.uriMap && this.uriMap[id] !== undefined) {
         const { layout, doctype } = this.uriMap[id];
         if (layout === 'section') {
           // console.log('getsection')
-          this.store.dispatch(new GetSection({ ...content, id, layout, doctype }));
+          const path = `${layout}/${id}`;
+          this.store.dispatch(new GetSection({ ...content, path, id, layout, doctype }));
         } else {
           // page
           // console.log('getpage')
-          this.store.dispatch(new GetContent({ ...content, id, layout, doctype }));
+          const path = `${layout}/${id}`;
+          this.store.dispatch(new GetContent({ ...content, path, id, layout, doctype }));
         }
       } else {
         // console.log('getmain')
         this.store.dispatch(
-          new GetContent({ layout: 'page', doctype: 'html', id: 'main', body: '' })
+          new GetContent({ path: 'page/main', layout: 'page', doctype: 'html', id: 'main', body: '' })
         );
       }
     });

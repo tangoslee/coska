@@ -3,8 +3,12 @@
 <xsl:output method="xml" version="1.0" omit-xml-declaration="yes" indent="yes" media-type="text/html"/>
 
 <xsl:template match="post">
+<meta property="cms:title" content="title"/>
+<meta property="cms:publishedAt" content="pubDate"/>
+<meta property="cms:desc" content="content"/>
+<meta property="cms:author" content="author"/>
 
-<h1 class="display-8"><xsl:value-of select="title" /></h1>
+<h1 class="cms-title display-8"><xsl:value-of select="title" /></h1>
 
 <div class="item-footer blockquote-footer">
   <xsl:value-of select="date" disable-output-escaping="yes"/>
@@ -13,7 +17,7 @@
 </div>
 <div class="media item-body">
   <div class="media-body">
-    <span class="w-100"><xsl:value-of select="content" disable-output-escaping="no" /></span>
+    <span class="cms-desc w-100"><xsl:value-of select="content" disable-output-escaping="no" /></span>
   </div>
 </div>
 
