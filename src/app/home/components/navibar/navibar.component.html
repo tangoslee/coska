@@ -1,40 +1,41 @@
 <nav id="navibar" class="navbar navbar-expand-lg navbar-light sticky-top">
-  <a class="navbar-brand" routerLink="/"><span class="logo-text"><!--img src="./assets/img/coska-logo.png" alt="Coska logo"--></span></a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" (click)="toggleNavi()">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+  <div class="container">
+    <a class="navbar-brand" routerLink="/"><span class="logo-text">
+        <!--img src="./assets/img/coska-logo.png" alt="Coska logo"--></span></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" (click)="toggleNavi()">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-  <div class="collapse navbar-collapse" id="navbarSupportedContent" [ngClass]="{ show: showNavi }">
-    <ul class="navbar-nav ml-auto">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent" [ngClass]="{ show: showNavi }">
+      <ul class="navbar-nav ml-auto">
 
-      <!-- // Mobile Menu -->
-      <li class="nav-item dropdown d-block" *ngFor="let menu of menus; let i = index;"
-      (mouseenter)="onAreaIn(i)"
-      (mouseleave)="onAreaOut(i)">
-        <a *ngIf="menu.layout && menu.layout === 'extlink'" class="nav-link" href="{{menu.url}}" target="_blank">{{menu.title}}</a>
-        <a *ngIf="menu.pgid" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" (mouseover)="toggleDropDown(i)"
-          aria-haspopup="true" aria-expanded="false">
-          {{menu.title}}
-        </a>
-        <div *ngIf="menu.subMenu" class="dropdown-menu" aria-labelledby="navbarDropdown" [ngClass]="{ show: showDropDown[i] }">
-          <ng-container *ngFor="let sub of menu.subMenu">
-            <ng-container [ngSwitch]="sub.layout">
-              <h6  *ngSwitchCase="'header'" class="dropdown-header">{{sub.title}}</h6>
-              <div *ngSwitchCase="'divider'" class="dropdown-divider"></div>
-              <a *ngSwitchDefault class="nav-link pl-2" [routerLink]="['/' + baseHref, menu.pgid, sub.pgid]"
-              (click)="closeDropDown()"
-              routerLinkActive="active">{{sub.title}}</a>
+        <!-- // Mobile Menu -->
+        <li class="nav-item dropdown d-block" *ngFor="let menu of menus; let i = index;" (mouseenter)="onAreaIn(i)"
+          (mouseleave)="onAreaOut(i)">
+          <a *ngIf="menu.layout && menu.layout === 'extlink'" class="nav-link" href="{{menu.url}}" target="_blank">{{menu.title}}</a>
+          <a *ngIf="menu.pgid" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown"
+            (mouseover)="toggleDropDown(i)" aria-haspopup="true" aria-expanded="false">
+            {{menu.title}}
+          </a>
+          <div *ngIf="menu.subMenu" class="dropdown-menu" aria-labelledby="navbarDropdown" [ngClass]="{ show: showDropDown[i] }">
+            <ng-container *ngFor="let sub of menu.subMenu">
+              <ng-container [ngSwitch]="sub.layout">
+                <h6 *ngSwitchCase="'header'" class="dropdown-header">{{sub.title}}</h6>
+                <div *ngSwitchCase="'divider'" class="dropdown-divider"></div>
+                <a *ngSwitchDefault class="nav-link pl-2" [routerLink]="['/' + baseHref, menu.pgid, sub.pgid]" (click)="closeDropDown()"
+                  routerLinkActive="active">{{sub.title}}</a>
+              </ng-container>
             </ng-container>
-          </ng-container>
-        </div>
-      </li>
+          </div>
+        </li>
 
-      <!-- // Desktop Menu -->
-      <!-- <li class="nav-item d-none d-lg-block" *ngFor="let menu of menus">
+        <!-- // Desktop Menu -->
+        <!-- <li class="nav-item d-none d-lg-block" *ngFor="let menu of menus">
         <a *ngIf="menu.pgid" class="nav-link" [routerLink]="['/' + baseHref, menu.pgid]" routerLinkActive="active">{{menu.title}}</a>
         <a *ngIf="menu.layout && menu.layout === 'extlink'" class="nav-link" href="{{menu.url}}" target="_blank">{{menu.title}}</a>
       </li> -->
-    </ul>
+      </ul>
+    </div>
   </div>
 </nav>

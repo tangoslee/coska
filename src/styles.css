@@ -55,6 +55,11 @@ body {
   opacity: 1;
 }
 
+.container {
+  padding-left: 0;
+  padding-right: 0;
+}
+
 #navibar,
 aside,
 .breadcrumb {
@@ -132,11 +137,18 @@ footer {
 
 @media (min-width: 575px) {}
 
-@media (min-width: 768px) {}
+@media (min-width: 768px) {
+  .container {
+    max-width: 992px;
+  }
+}
 
 @media (min-width: 992px) {
   #sidebar {
     display: block;
+  }
+  .container {
+    max-width: 1477px;
   }
 }
 

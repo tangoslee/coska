@@ -1,7 +1,7 @@
 <app-navibar></app-navibar>
 
 
-<div class="main-container">
+<div class="main-container container">
 
   <app-sidebar></app-sidebar>
 
@@ -11,14 +11,8 @@
 
     <div class="container-fluid">
 
-      <div class="row main-body">
-        <div class="col-md">
+      <ng-content></ng-content>
 
-            <ng-content></ng-content>
-
-        </div>
-
-      </div>
     </div>
 
   </main>
