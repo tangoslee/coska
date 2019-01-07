@@ -25,6 +25,8 @@ export class NavibarComponent implements OnInit, OnDestroy {
   getStateSub: any;
   routeSub: any;
 
+  timeout: any;
+
   constructor(
     private store: Store<AppState>,
     private route: ActivatedRoute,
@@ -50,7 +52,7 @@ export class NavibarComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   ngOnDestroy() {
     if (this.getStateSub) {
@@ -81,9 +83,14 @@ export class NavibarComponent implements OnInit, OnDestroy {
 
   onAreaIn(i: number) {
     this.showDropDown[i] = true;
+    if (this.timeout) {
+      clearTimeout(this.timeout);
+    }
   }
 
   onAreaOut(i: number) {
-    this.showDropDown[i] = false;
+    this.timeout = setTimeout(() => {
+      this.showDropDown[i] = false;
+    }, 200);
   }
 }
