@@ -23,6 +23,16 @@
       <moderatedby>Rule:authenticated</moderatedby>
       <content>좋은 글 감사합니다.</content>
     </comment>
+    <comment id="47819773-1d99-4f4b-9709-c16e741039d8" parentid="00000000-0000-0000-0000-000000000000" approved="True" spam="False" deleted="False">
+      <date>2005-12-11 12:34:53</date>
+      <author>홍길동</author>
+      <email />
+      <country>ca</country>
+      <ip>200.188.94.123</ip>
+      <moderatedby>Rule:authenticated</moderatedby>
+      <content>과학적성과의 의구심을 떨치기 위해 검증을 해 보자는데,,,첫번째에서 안되면 두번째 검증을 하겠다고 해놓고 뒤늦게 그 검증의 주체가 언론이라서 반대한다든지, 차일피일 미적거리다가 사이언스의 권위로의 회피를 보인다든지,, 앞으로의 연구로 보여주겠다 등의 비과학적 태도로 일관하는 것은 지극히 부당하지 않을까,,,,
+온 나라가 벌집 쑤신 듯 어수선한 지금에,, 과학자에게서 검증은 당연한 일인데도 ..이를 거부한 처사는 잘못이라 사료된다</content>
+    </comment>
   </comments>
   <categories>
     <category>5801a918-c4ca-4af9-a9f8-77fb0af0f1f8</category>
