@@ -1,0 +1,154 @@
+.modal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1050;
+  display: block !important;
+  overflow-y: scroll;
+  outline: 0;
+}
+
+.modal-body, 
+.modal-dialog, 
+.row 
+{
+  height: 100% !important;
+}
+
+.modal-dialog {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.modal-content {
+  padding: 100px 0;
+  /* text-align: center; */
+  position: relative;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  width: 100%;
+  pointer-events: auto;
+  /* background-color: #212529; */
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid rgba(0, 0, 0, .2);
+  border-radius: .3rem;
+  outline: 0;
+}
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1040;
+  background-color: #000;
+}
+
+.close-modal {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  width: 75px;
+  height: 75px;
+  cursor: pointer;
+  background-color: transparent;
+}
+
+.close-modal .lr {
+  z-index: 1051;
+  width: 1px;
+  height: 75px;
+  margin-left: 35px;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+  background-color: #212529;
+  /* background-color: #e0e0e0; */
+}
+
+.close-modal .lr .rl {
+  z-index: 1052;
+  width: 1px;
+  height: 75px;
+  -webkit-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
+  background-color: #212529;
+  /* background-color: #e0e0e0; */
+
+}
+
+.modal-content .btn-close {
+  position: absolute;
+  right: 0;
+  background-color: #303030;
+  border-color: #303030;
+}
+
+.modal-content .btn-close:hover {
+  background-color: #e0e0e0;
+  border-color: #e0e0e0;
+  color: #303030;  
+}
+
+
+.cms-title {
+  color: #000;
+}
+
+@media (min-width: 300px) {
+  .modal-body, .modal-dialog, .row {
+    max-width: 300px !important;
+  }
+}
+
+/* Galaxy S5 */
+@media (min-width: 360px) {
+  .modal-body, .modal-dialog, .row {
+    max-width: 360px !important;
+  }
+}
+
+/* iPhone 6/7/8 */
+@media (min-width: 375px) {
+  .modal-body, .modal-dialog, .row {
+    max-width: 375px !important;
+  }
+}
+
+/* Pixel 2 XL */
+@media (min-width: 411px) {
+  .modal-body, .modal-dialog, .row {
+    max-width: 411px !important;
+  }
+}
+
+@media (min-width: 575px) {
+  .modal-body, .modal-dialog, .row {
+    max-width: 575px !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .modal-body, .modal-dialog, .row {
+    max-width: 768px !important;
+  }
+}
+
+@media (min-width: 992px) {
+  .modal-body, .modal-dialog, .row {
+    max-width: 992px !important;
+  }
+}
+
+@media (min-width: 1200px) {
+  .modal-body, .modal-dialog, .row {
+    max-width: 1140px !important;
+  }
+}

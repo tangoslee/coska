@@ -1,5 +1,5 @@
 <app-file-not-found *ngIf="error"></app-file-not-found>
-<ng-container  *ngIf="!error" [ngSwitch]="format">
+<ng-container  *ngIf="!error && section" [ngSwitch]="format">
   <app-sections-card *ngSwitchCase="'card'" [posts]="section.posts" [link]="link"></app-sections-card>
   <app-sections-list *ngSwitchDefault [posts]="section.posts" [link]="link"></app-sections-list>
 </ng-container>

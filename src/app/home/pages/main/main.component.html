@@ -1,30 +1,14 @@
-<app-navibar></app-navibar>
+<app-layout>
 
-
-<div class="main-container">
-
-  <app-sidebar></app-sidebar>
-
-  <main class="main container-fluid">
-
-    <app-breadcrumb></app-breadcrumb>
-
-    <div class="container-fluid">
-
-      <div class="row main-body">
-        <div class="col-md">
-          <ng-container [ngSwitch]="content.layout">
-            <app-sections *ngSwitchCase="'section'"></app-sections>
-            <app-contents *ngSwitchDefault></app-contents>
-          </ng-container>
-        </div>
-      </div>
-
+  <div class="row main-body">
+    <div class="col-md" *ngIf="container">
+      <ng-container [ngSwitch]="container">
+        <app-sections *ngSwitchCase="'section'"></app-sections>
+        <app-modal-contents *ngSwitchCase="'page.modal'"></app-modal-contents>
+        <app-contents *ngSwitchDefault></app-contents>
+      </ng-container>
     </div>
+  </div>
 
-  </main>
+</app-layout>
 
-</div>
-
-
-<app-footer></app-footer>

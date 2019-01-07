@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 
@@ -20,7 +21,13 @@ export class MainComponent implements OnInit, OnDestroy {
   getStateSub: any;
   routeSub: any;
 
-  constructor(private store: Store<AppState>, private route: ActivatedRoute) {
+  container: string;
+
+  constructor(
+    private store: Store<AppState>,
+    private route: ActivatedRoute,
+    private _location: Location
+  ) {
     this.getState = this.store.select(selectAppState);
 
     this.getStateSub = this.getState.subscribe(({ uriMap, content }) => {
@@ -30,44 +37,35 @@ export class MainComponent implements OnInit, OnDestroy {
     });
   }
 
+  goBack() {
+    this._location.back();
+  }
+
   ngOnInit() {
     this.routeSub = this.route.params.subscribe(route => {
+
       const { ppgid, pgid, postid } = route;
       const content = this.content;
       const id = ppgid && pgid ? `${ppgid}/${pgid}` : '';
 
+      this.container = content.layout || '';
+
       // console.log({ id, hit: this.uriMap[id] });
-      if (postid) {
-        const { layout, doctype } = this.uriMap[id];
-        const path = `section/${ppgid}/${pgid}/${postid}`;
-        // console.log('getpost:', postid, {layout, doctype});
-        this.store.dispatch(
-          new GetContent({
-            ...content,
-            path,
-            doctype,
-            layout: 'page',
-            id: `${ppgid}/${pgid}/${postid}`,
-          })
-        );
-      } else if (this.uriMap && this.uriMap[id] !== undefined) {
-        const { layout, doctype } = this.uriMap[id];
-        if (layout === 'section') {
-          // console.log('getsection')
-          const path = `${layout}/${id}`;
-          this.store.dispatch(new GetSection({ ...content, path, id, layout, doctype }));
+
+      if (this.uriMap && this.uriMap[id] !== undefined) {
+        const { layout } = this.uriMap[id];
+        if (layout === 'page') {
+          this.container = 'page';
+        } else if (layout === 'section' && postid) {
+          this.container = 'page.modal';
         } else {
-          // page
-          // console.log('getpage')
-          const path = `${layout}/${id}`;
-          this.store.dispatch(new GetContent({ ...content, path, id, layout, doctype }));
+          this.container = 'section';
         }
       } else {
-        // console.log('getmain')
-        this.store.dispatch(
-          new GetContent({ path: 'page/main', layout: 'page', doctype: 'html', id: 'main', body: '' })
-        );
+        // TODO 404 not found
+        console.log('404 not found');
       }
+      // console.log('container!!!:', this.container);
     });
   }
 

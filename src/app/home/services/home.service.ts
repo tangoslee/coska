@@ -131,8 +131,9 @@ export class HomeService {
         dom = this.afterHTMLFilter(dom, '.cms-desc');
       }
 
-      const html = new XMLSerializer().serializeToString(dom);
+      let html = new XMLSerializer().serializeToString(dom);
       // console.log({ html });
+      html = this.htmlFilter(html);
       return html;
     } catch (e) {
       return '';
@@ -170,6 +171,15 @@ export class HomeService {
       }
     }
     return dom;
+  }
+
+  htmlFilter(html: string): string {
+    return html
+      // disable style=
+      .replace(/style=/g, 'styIe=')
+      // disable <style>, </style>
+      .replace(/<(\/?)style>/g, `<$1styIe>`)
+      ;
   }
 
   getSection(path: string): Observable<Section> {

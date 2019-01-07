@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { MainComponent } from '@app/home/pages';
+import { MainComponent, HomeComponent } from '@app/home/pages';
 
 const routes: Routes = [
-  { path: '', component: MainComponent },
+  { path: '', component: HomeComponent },
   { path: ':ppgid', component: MainComponent },
   { path: ':ppgid/:pgid', component: MainComponent },
   { path: ':ppgid/:pgid/:postid', component: MainComponent },
